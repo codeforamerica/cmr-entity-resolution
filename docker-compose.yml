@@ -1,0 +1,192 @@
+version: '3'
+services:
+  rabbitmq:
+    environment:
+      # See https://github.com/bitnami/bitnami-docker-rabbitmq#configuration
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-bitnami}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-user}
+    image: bitnami/rabbitmq:${SENZING_DOCKER_IMAGE_VERSION_BITNAMI_RABBITMQ:-latest}
+    networks:
+      - senzing
+    ports:
+      - 15672:15672
+      - 5672:5672
+    restart: always
+    volumes:
+      - rabbitmq:/bitnami
+
+  redoer:
+    depends_on:
+      - rabbitmq
+    environment:
+      SENZING_RABBITMQ_INFO_EXCHANGE: senzing-rabbitmq-exchange
+      SENZING_RABBITMQ_INFO_HOST: rabbitmq
+      SENZING_RABBITMQ_INFO_PASSWORD: ${RABBITMQ_PASSWORD:-bitnami}
+      SENZING_RABBITMQ_INFO_PORT: 5672
+      SENZING_RABBITMQ_INFO_ROUTING_KEY: senzing.records
+      SENZING_RABBITMQ_INFO_USERNAME: ${RABBITMQ_USERNAME:-user}
+      SENZING_RABBITMQ_INFO_VIRTUAL_HOST: "/"
+    image: senzing/redoer:${SENZING_DOCKER_IMAGE_VERSION_REDOER:-latest}
+    networks:
+      - senzing
+    read_only: true
+    restart: always
+
+  postgres:
+    environment:
+      # See https://github.com/bitnami/bitnami-docker-postgresql#configuration
+      POSTGRESQL_DATABASE: ${POSTGRES_DB:-G2}
+      POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD:-senzing}
+      POSTGRESQL_POSTGRES_PASSWORD: ${POSTGRESQL_POSTGRES_PASSWORD:-postgres}
+      POSTGRESQL_USERNAME: ${POSTGRES_USERNAME:-senzing}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME:-postgres}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    image: bitnami/postgresql:${SENZING_DOCKER_IMAGE_VERSION_BITNAMI_POSTGRESQL:-latest}
+    networks:
+      - senzing
+    ports:
+      - 5432:5432
+    user: "${SENZING_UID:-504}:0"
+    restart: always
+    volumes:
+      - postgres:/bitnami/postgresql
+
+  init-postgresql:
+    depends_on:
+      - postgres
+    environment:
+      LC_CTYPE: en_US.utf8
+      #  See https://github.com/Senzing/init-postgresql#configuration
+      SENZING_CONFIGURATION_MODIFICATIONS: |
+        addDataSource PEOPLE
+      SENZING_ENGINE_CONFIGURATION_JSON: >-
+        {
+          "PIPELINE": {
+            "CONFIGPATH": "/etc/opt/senzing",
+            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
+            "RESOURCEPATH": "/opt/senzing/g2/resources",
+            "SUPPORTPATH": "/opt/senzing/data"
+          },
+          "SQL": {
+            "BACKEND": "SQL",
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@$postgres:5432:G2/"
+          }
+        }
+      #     SENZING_INPUT_SQL_URL: "file:///opt/senzing/g2/resources/schema/g2core-schema-postgresql-create.sql"
+      SENZING_SUBCOMMAND: mandatory
+    image: senzing/init-postgresql:${SENZING_DOCKER_IMAGE_VERSION_INIT_POSTGRESQL:-latest}
+    networks:
+      - senzing
+    read_only: true
+    restart: on-failure
+
+  api:
+    depends_on:
+      - postgres
+    environment:
+      SENZING_API_SERVER_ALLOWED_ORIGINS: '*'
+      SENZING_API_SERVER_ENABLE_ADMIN: 'true'
+      SENZING_ENGINE_CONFIGURATION_JSON: >-
+        {
+          "PIPELINE": {
+            "CONFIGPATH": "/etc/opt/senzing",
+            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
+            "RESOURCEPATH": "/opt/senzing/g2/resources",
+            "SUPPORTPATH": "/opt/senzing/data"
+          },
+          "SQL": {
+            "BACKEND": "SQL",
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432:G2/"
+          }
+        }
+    image: senzing/senzing-api-server:${SENZING_DOCKER_IMAGE_VERSION_SENZING_API_SERVER:-latest}
+    networks:
+      - senzing
+    ports:
+      - 8250:8250
+    read_only: true
+    restart: always
+    tmpfs:
+      - '/tmp'
+
+  tools:
+    build: .
+    environment:
+      SENZING_ENGINE_CONFIGURATION_JSON: >-
+        {
+          "PIPELINE": {
+            "CONFIGPATH": "/etc/opt/senzing",
+            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
+            "RESOURCEPATH": "/opt/senzing/g2/resources",
+            "SUPPORTPATH": "/opt/senzing/data/current"
+          },
+          "SQL": {
+            "BACKEND": "SQL",
+            "CONNECTION": "${SENZING_SQL_CONNECTION:-postgresql://postgres:postgres@postgres:5432:G2/}"
+          }
+        }
+    networks:
+      - senzing
+    command: tail -F anything
+
+  webapp-console:
+    profiles:
+      - webapp
+    environment:
+      SENZING_CONSOLE_SERVER_PORT: 8257
+      SENZING_ENGINE_CONFIGURATION_JSON: >-
+        {
+          "PIPELINE": {
+            "CONFIGPATH": "/etc/opt/senzing",
+            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",.
+            "RESOURCEPATH": "/opt/senzing/g2/resources",
+            "SUPPORTPATH": "/opt/senzing/data"
+          },
+          "SQL": {
+            "BACKEND": "SQL",
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432:G2/"
+          }
+        }
+    image: senzing/entity-search-web-app-console:${SENZING_DOCKER_IMAGE_VERSION_ENTITY_SEARCH_WEB_APP_CONSOLE:-latest}
+    networks:
+      - senzing
+    user: "${SENZING_UID:-1001}:${SENZING_GID:-1001}"
+    restart: always
+    volumes:
+      - senzing:/var/opt/senzing
+
+  webapp:
+    profiles:
+      - webapp
+    depends_on:
+      - api
+      - webapp-console
+    environment:
+      # See https://github.com/Senzing/entity-search-web-app#configuration
+      SENZING_API_SERVER_URL: http://api:8250
+      SENZING_CONSOLE_SERVER_URL: ws://webapp-console:8257
+      SENZING_WEB_SERVER_ADMIN_AUTH_MODE: NONE
+      SENZING_WEB_SERVER_ADMIN_AUTH_PATH: http://webapp:8251
+      SENZING_WEB_SERVER_INTERNAL_URL: http://webapp:8251
+      SENZING_WEB_SERVER_PORT: 8251
+      SENZING_WEB_SERVER_STREAM_CLIENT_URL: wss://api:8250/ws
+    image: senzing/entity-search-web-app:${SENZING_DOCKER_IMAGE_VERSION_ENTITY_SEARCH_WEB_APP:-latest}
+    networks:
+      - senzing
+    ports:
+      - 8251:8251
+      - 8257:8257
+    read_only: true
+    restart: always
+
+networks:
+  senzing:
+    name: ${SENZING_DOCKER_NETWORK:-senzing-network}
+
+volumes:
+  postgres:
+  rabbitmq:
+  senzing:

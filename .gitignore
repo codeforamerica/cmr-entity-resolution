@@ -1,0 +1,4 @@
+# Ignore IDE specific configurations
+.idea
+*.iml
+.vscode
