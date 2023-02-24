@@ -54,7 +54,7 @@ services:
     volumes:
       - postgres:/bitnami/postgresql
 
-  init-postgresql:
+  init-postgres:
     depends_on:
       - postgres
     environment:
@@ -72,10 +72,9 @@ services:
           },
           "SQL": {
             "BACKEND": "SQL",
-            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@$postgres:5432:G2/"
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2/"
           }
         }
-      #     SENZING_INPUT_SQL_URL: "file:///opt/senzing/g2/resources/schema/g2core-schema-postgresql-create.sql"
       SENZING_SUBCOMMAND: mandatory
     image: senzing/init-postgresql:${SENZING_DOCKER_IMAGE_VERSION_INIT_POSTGRESQL:-latest}
     networks:
