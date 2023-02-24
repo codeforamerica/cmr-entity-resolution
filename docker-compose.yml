@@ -124,7 +124,7 @@ services:
           },
           "SQL": {
             "BACKEND": "SQL",
-            "CONNECTION": "${SENZING_SQL_CONNECTION:-postgresql://postgres:postgres@postgres:5432:G2/}"
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2"
           }
         }
     networks:
