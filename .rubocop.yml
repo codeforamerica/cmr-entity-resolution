@@ -1,0 +1,11 @@
+require:
+  - rubocop-rake
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - bin/**/*
+    - vendor/**/*
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false

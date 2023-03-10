@@ -1,4 +1,11 @@
-# Ignore IDE specific configurations
+# Ignore IDE specific configurations.
 .idea
 *.iml
 .vscode
+
+# Ignore custom configs but allow changes to the sample.
+config/*
+!config/config.sample.yml
+
+# Ignore installed dependencies.
+vendor

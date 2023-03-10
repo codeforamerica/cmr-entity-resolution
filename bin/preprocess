@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csv'
+require 'json'
+require 'thor'
+require_relative '../lib/config'
+require_relative '../lib/filter'
+
+class Preprocess < Thor
+  # Exit non-zero on errors.
+  def self.exit_on_failure?
+    true
+  end
+
+  desc 'process', 'Process the data to be imported into Senzing'
+  option :config, desc: 'Path to the configuration file for this data set',
+                 default: File.expand_path(File.join(__dir__, '../config/config.yml'))
+  option :input, desc: 'Path to the CSV file to be processed for import',
+                 default: File.join(Dir.getwd, 'import.csv')
+  option :output, desc: 'Path to the processed file that can be imported into Senzing',
+                  default: File.join(Dir.getwd, 'senzing_input.json')
+  def process
+    config = Config.from_file(options[:config])
+    File.open(options[:output], 'w') do |json_out|
+      CSV.open(options[:input], headers: true, strip: true) do |csv_in|
+        # Convert the headers using the configured field map and add them to the
+        # output file.
+        csv_in.header_convert { |header| config.field_map[header.to_sym] }
+        headers = (csv_in.readline.headers + ['RELATED_RECORD_ID'])
+        csv_in.rewind
+
+        csv_in.each do |row|
+          next unless Filter.filter(config, row)
+
+          # TODO: Find all phone fields and apply this transformation?
+          # phone = row[14]&.rstrip
+          # phone = '' if phone && phone.split('').uniq.length < 2
+
+          # TODO: Determine if this comes from the data or if we need to be able
+          # to look it up.
+          row['RELATED_RECORD_ID'] = nil
+
+          json_out.puts row.to_hash.compact.to_json
+        end
+      end
+    end
+
+    say_status('success', "Contents output to #{options[:output]}")
+  end
+end
+
+Preprocess.start(ARGV)
