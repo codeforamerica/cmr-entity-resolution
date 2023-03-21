@@ -24,11 +24,8 @@ class Preprocess < Thor
     config = Config.from_file(options[:config])
     File.open(options[:output], 'w') do |json_out|
       CSV.open(options[:input], headers: true, strip: true) do |csv_in|
-        # Convert the headers using the configured field map and add them to the
-        # output file.
-        csv_in.header_convert { |header| config.field_map[header.to_sym] }
-        headers = (csv_in.readline.headers + ['RELATED_RECORD_ID'])
-        csv_in.rewind
+        # Convert the headers using the configured field map.
+        csv_in.header_convert { |header| config.field_map[:pre][header.to_sym].to_sym }
 
         csv_in.each do |row|
           next unless Filter.filter(config, row)

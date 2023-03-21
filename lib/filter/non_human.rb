@@ -11,10 +11,10 @@ module Filter
     # @param record [CSV::ROW] The record to apply the filter to.
     # @return [Boolean] Whether or not the record should be kept.
     def filter(record)
-      full_name = record['PRIMARY_NAME_FULL'] || [
-        record['PRIMARY_NAME_FIRST'],
-        record['PRIMARY_NAME_MIDDLE'],
-        record['PRIMARY_NAME_LAST']
+      full_name = record[:PRIMARY_NAME_FULL] || [
+        record[:PRIMARY_NAME_FIRST],
+        record[:PRIMARY_NAME_MIDDLE],
+        record[:PRIMARY_NAME_LAST]
       ].compact.join(' ')
 
       !(exact?(record, full_name) || beginning?(full_name) ||
@@ -41,8 +41,8 @@ module Filter
 
     def exact?(record, full_name)
       matchers['exact'].any? do |match|
-        full_name == match || record['PRIMARY_NAME_FIRST'] == match ||
-          record['PRIMARY_NAME_LAST'] == match
+        full_name == match || record[:PRIMARY_NAME_FIRST] == match ||
+          record[:PRIMARY_NAME_LAST] == match
       end
     end
 
