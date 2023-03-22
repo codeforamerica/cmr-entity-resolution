@@ -9,3 +9,7 @@ config/*
 
 # Ignore installed dependencies.
 vendor
+
+# Ignore import and export files.
+./*.csv
+./*.json

@@ -16,7 +16,7 @@ module Filter
       filter_from_config(filter).filter(record)
     end
 
-    config.logger.info("Filtering out record #{record['RECORD_ID']}") unless result
+    config.logger.info("Filtering out record #{record[:RECORD_ID]}") unless result
 
     result
   end
