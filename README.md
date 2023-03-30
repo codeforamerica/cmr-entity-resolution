@@ -149,6 +149,7 @@ With Ruby installed, you can install software dependencies by running:
 
 ```bash
 bundle install
+bundle binstubs cmr-entity-resolution
 ```
 
 ### Usage
@@ -157,15 +158,15 @@ Both tools can be found in the bin directory. You can run them locally using the
 following:
 
 ```bash
-bundle exec bin/preprocess process
-bundle exec bin/postprocess process
+./bin/preprocess process
+./bin/postprocess process
 ```
 
 You can view the documentation for each by calling help before the command. For
 example:
 
 ```bash
-bundle exec bin/preprocess help process
+./bin/preprocess help process
 ```
 
 Each command takes the following options:
