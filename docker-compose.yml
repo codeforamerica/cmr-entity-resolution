@@ -1,6 +1,8 @@
 version: '3'
 services:
   rabbitmq:
+    profiles:
+      - redoer
     environment:
       # See https://github.com/bitnami/bitnami-docker-rabbitmq#configuration
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-bitnami}
@@ -16,6 +18,8 @@ services:
       - rabbitmq:/bitnami
 
   redoer:
+    profiles:
+      - redoer
     depends_on:
       - rabbitmq
     environment:
