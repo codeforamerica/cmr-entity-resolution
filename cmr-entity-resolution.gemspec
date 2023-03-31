@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rake'
-
 Gem::Specification.new do |s|
   s.name        = 'cmr-entity-resolution'
   s.version     = '0.1.0'
@@ -12,7 +10,11 @@ Gem::Specification.new do |s|
   s.email       = 'cmr@codeforamerica.org'
   s.bindir = 'exe'
   s.executables = %w[postprocess preprocess]
-  s.files       = FileList['lib/**/*', 'bin/*', 'config/*', 'Gemfile*', 'Rakefile']
+  s.files       = Dir['lib/**/*'] +
+                  Dir['config/*'] +
+                  Dir['exe/*'] +
+                  Dir['Gemfile*'] +
+                  ['Rakefile']
   s.homepage    = 'https://codeforamerica.org/programs/criminal-justice/automatic-record-clearance/'
   s.metadata    = {
     'bug_tracker_uri' => 'https://github.com/codeforamerica/cmr-entity-resolution/issues',
