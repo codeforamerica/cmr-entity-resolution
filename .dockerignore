@@ -1,0 +1,9 @@
+.github
+.idea
+bin
+vendor
+*.iml
+*.json
+*.csv
+Dockerfile
+docker-compose.yml

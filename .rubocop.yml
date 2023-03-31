@@ -5,6 +5,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - bin/**/*
+    - exe/**/*
     - vendor/**/*
 
 Naming/MemoizedInstanceVariableName:

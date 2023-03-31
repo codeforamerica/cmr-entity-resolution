@@ -8,6 +8,7 @@ config/*
 !config/config.sample.yml
 
 # Ignore installed dependencies.
+bin
 vendor
 
 # Ignore import and export files.
