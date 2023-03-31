@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     'source_code_uri' => 'https://github.com/codeforamerica/cmr-entity-resolution'
   }
 
-  s.required_ruby_version = '>= 3.1.2'
+  s.required_ruby_version = '>= 3.2'
 
   # Add runtime dependencies.
   s.add_runtime_dependency 'thor', '~> 1.2'
