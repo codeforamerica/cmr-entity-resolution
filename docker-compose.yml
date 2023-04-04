@@ -133,7 +133,7 @@ services:
         }
     networks:
       - senzing
-    command: tail -F anything
+    command: run
 
   webapp-console:
     profiles:
