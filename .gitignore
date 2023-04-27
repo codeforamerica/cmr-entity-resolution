@@ -11,6 +11,9 @@ config/*
 bin
 vendor
 
+# Ignore data directories.
+data
+
 # Ignore import and export files.
 ./*.csv
 ./*.json

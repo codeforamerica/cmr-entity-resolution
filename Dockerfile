@@ -50,4 +50,5 @@ RUN pip3 install psycopg2 --user
 
 WORKDIR /home/senzing
 
-ENTRYPOINT /opt/cmr/scripts/endpoint.sh
+ENTRYPOINT ["/opt/cmr/scripts/entrypoint.sh"]
+CMD run

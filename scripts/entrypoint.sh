@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 BASE_PATH=$( dirname -- "$0" )
-COMMAND=${1}
+COMMAND="$1"
 
 case $COMMAND in
   load)
     export CONFIG_FILE="/etc/cmr/config.yml"
-    export INPUT_FILE="/etc/cmr/imports/import.json"
-    export OUTPUT_FILE="/etc/cmr/imports/import.csv"
+    export INPUT_FILE="/etc/cmr/import/import.csv"
+    export OUTPUT_FILE="/etc/cmr/import/import.json"
     "$BASE_PATH/load.sh"
     ;;
   export)
