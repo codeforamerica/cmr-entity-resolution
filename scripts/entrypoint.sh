@@ -13,7 +13,7 @@ case $COMMAND in
   export)
     export CONFIG_FILE="/etc/cmr/config.yml"
     export INPUT_FILE="/etc/cmr/export/export.json"
-    export OUTPUT_FILE="/etc/cmr/export/export.csv"
+    export OUTPUT_FILE="/etc/cmr/export/matches.csv"
     "$BASE_PATH/export.sh"
     ;;
   run)

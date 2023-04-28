@@ -186,7 +186,7 @@ services:
       - senzing
     command: export
     volumes:
-      - ${LOADER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
+      - ${EXPORTER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
       - ./data/export:/etc/cmr/export
 
   webapp-console:
