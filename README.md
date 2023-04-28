@@ -61,131 +61,55 @@ docker compose down --volumes
 
 ## Importing & exporting
 
-The `tools` container can be used to interact with Senzing using the G2 python
-library. Some commands below will require a terminal open to the `tools`
-container. This can be done directly through Docker Desktop or by running the
-following command:
+The `importer` and `exporter` containers can be used to import records and
+export entity matches. These containers mount the contents of `data/import` and
+`data/export` from the root of this repository, respectively.
 
-```bash
-docker compose exec tools /bin/bash
-```
-
-*Note: The `tools` container does not have a persistent volume. Any changes made
-in the container will be lost if the container is recreated or removed.*
-
-### Project setup
-
-Before you can import or export data you will need to create a project by
-running the following on the container (you can use any project name you wish):
-
-```bash
-G2CreateProject.py project
-```
-
-This will create a directory with the name of the project in the `senzing`
-user's home directory. Before running commands from any of the steps below,
-you will need to be using a configured project by running the following:
-
-```bash
-cd ~/project
-source setupEnv
-```
+See the [documentation][processing] on pre and postprocessing for information
+on how to format your configuration file.
 
 ### Importing
 
-You can copy a CSV or JSON file to the container in order to be imported into
-Senzing. With a file that conforms to the
-[Generic Entity Specification][entity-spec], run the following on your local
-host:
+Make sure the file to be imported is in a CSV format and place it at
+`data/import/import.csv`. Your configuration file for preprocessing should be at
+`config/config.yml`; however, this can be overridden by setting the
+`LOADER_CONFIG_FILE` environment variable to the local path.
+
+Launch the loader container by running the following:
 
 ```bash
-docker compose cp /path/to/import.json tools:/home/senzing/.
+docker up -d importer
 ```
 
-From the project directory on the container, run the following for a JSON file:
-
-*Note: If you would like to first purge existing records, you can add the `-P`
-flag to the command below.*
-
-```bash
-G2Loader.py -f ../import.json/?data_source=PEOPLE,file_format=JSON
-```
-
-For a CSV file:
-
-```bash
-G2Loader.py -f ../import.csv/?data_source=PEOPLE,file_format=CSV
-```
+This will build the container (if needed) and run the preprocessor before
+importing records into Senzing. The preprocessed file can be found at
+`data/import/import.json`.
 
 ### Exporting
 
-You can export the resolved entities to a JSON file on the container which can
-then be copied to your local host. To run the export, run the following from the
-project directory on the container:
+Your configuration file for postprocessing should be at `config/config.yml`;
+however, this can be overridden by setting the `EXPORTER_CONFIG_FILE`
+environment variable to the local path.
+
+_Note: You can use the same configuration file for imports and exports._
+
+Launch the exporter container by running the following:
 
 ```bash
-G2Export.py -o ../senzing_output.json -F json -x -f=0
+docker up -d exporter
 ```
 
-Run the following from your local host to copy the file:
+This will build the container (if needed), export the records from senzing, then
+run the postprocessor to create the entity match file. The export can be found
+at `data/export/export.json` and the entity match file can be found at
+`data/export/matches.csv`.
 
-```bash
-docker compose cp tools:/home/senzing/senzing_output.json /path/to/destination/. 
-```
+### Manual import & export
 
-## Pre and postprocessing
-
-Your source data isn't likely to match the format required by Senzing. To
-address, we've dev loped pre and postprocessing tools that can be configured for
-different use cases.
-
-### Dependencies
-
-In order to run these tools locally you will need the following:
-
-- Ruby 3.2.1+
-
-With Ruby installed, you can install software dependencies by running:
-
-```bash
-bundle install
-bundle binstubs cmr-entity-resolution
-```
-
-### Usage
-
-Both tools can be found in the bin directory. You can run them locally using the
-following:
-
-```bash
-./bin/preprocess process
-./bin/postprocess process
-```
-
-You can view the documentation for each by calling help before the command. For
-example:
-
-```bash
-./bin/preprocess help process
-```
-
-Each command takes the following options:
-
-| Option   | Default                 | Description                          |
-|----------|-------------------------|--------------------------------------|
-| --config  | $ROOT/config/config.yml   | Path to the conmfiguration file.       |
-| --input  | $PWD/import.csv         | CSV file to be imported into Senzing. |
-| --output | $PWD/senzing_input.json | Output file after being processed.    |
-
-### Config
-
-See the [sample][sample-config] file for basic configuration options.
-
-Check the documentation for [filters][filters] and
-[transformations][transformations] for more advanced options.
+You can use the `tools` container to perform manual imports and exports. See
+the [additional documentation][manual-import-export] for more information.
 
 [docker-compose]: https://docs.docker.com/compose/
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
-[filters]: docs/filters.md
-[sample-config]: config/config.sample.yml
-[transformations]: docs/transformations.md
+[manual-import-export]: docs/manual-import-export.md
+[processing]: docs/processing.md#config

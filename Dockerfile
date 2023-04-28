@@ -49,3 +49,6 @@ ENV SENZING_API_SERVER_BIND_ADDR=all
 RUN pip3 install psycopg2 --user
 
 WORKDIR /home/senzing
+
+ENTRYPOINT ["/opt/cmr/scripts/entrypoint.sh"]
+CMD run
