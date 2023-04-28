@@ -162,6 +162,33 @@ services:
       - ${LOADER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
       - ./data/import:/etc/cmr/import
 
+  exporter:
+    profiles:
+      - export
+    depends_on:
+      - api
+    build: .
+    environment:
+      SENZING_ENGINE_CONFIGURATION_JSON: >-
+        {
+          "PIPELINE": {
+            "CONFIGPATH": "/etc/opt/senzing",
+            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
+            "RESOURCEPATH": "/opt/senzing/g2/resources",
+            "SUPPORTPATH": "/opt/senzing/data/current"
+          },
+          "SQL": {
+            "BACKEND": "SQL",
+            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2"
+          }
+        }
+    networks:
+      - senzing
+    command: export
+    volumes:
+      - ${LOADER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
+      - ./data/export:/etc/cmr/export
+
   webapp-console:
     profiles:
       - webapp

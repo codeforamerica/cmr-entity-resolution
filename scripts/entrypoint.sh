@@ -12,8 +12,8 @@ case $COMMAND in
     ;;
   export)
     export CONFIG_FILE="/etc/cmr/config.yml"
-    export INPUT_FILE="/etc/cm/exports/export.json"
-    export OUTPUT_FILE="/etc/cmr/exports/people.csv"
+    export INPUT_FILE="/etc/cmr/export/export.json"
+    export OUTPUT_FILE="/etc/cmr/export/export.csv"
     "$BASE_PATH/export.sh"
     ;;
   run)

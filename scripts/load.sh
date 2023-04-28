@@ -15,11 +15,13 @@ echo -e "${TEXT_COLOR}Processing the import file${NO_COLOR}"
   --output "$OUTPUT_FILE"
 
 # TODO: Use the API to import records.
-echo -e "${TEXT_COLOR}Creating project${NO_COLOR}"
 PROJECT_NAME="import-$(date "+%Y-%m-%dT%H:%M")"
+echo -e "${TEXT_COLOR}Creating project ${PROJECT_NAME}${NO_COLOR}"
 G2CreateProject.py "$PROJECT_NAME"
 source "$PROJECT_NAME/setupEnv"
 
 # TODO: Is this the data source we want to use?
 echo -e "${TEXT_COLOR}Importing records${NO_COLOR}"
 G2Loader.py -f "$OUTPUT_FILE/?data_source=PEOPLE,file_format=JSON"
+
+echo -e "${TEXT_COLOR}Import complete${NO_COLOR}"
