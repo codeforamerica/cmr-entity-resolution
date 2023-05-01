@@ -41,3 +41,17 @@ transformations:
     parts:
       0: DATABASE
       1: PARTY_ID
+
+destination:
+  type: CSV
+  path: /home/senzing/export.csv
+  overwrite: true
+  headers:
+    - person_id
+    - database
+    - party_id
+    - match_score
+    - potential_person_id
+    - potential_match_score
+  # TODO: Remove this option once we can export via the API.
+  export_file: /Users/jarmes/IdeaProjects/cmr-entity-resolution/data/export/export.json
