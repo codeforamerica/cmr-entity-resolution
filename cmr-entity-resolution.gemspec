@@ -27,6 +27,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.2'
 
   # Add runtime dependencies.
+  s.add_runtime_dependency 'faraday', '~> 2.7'
+  s.add_runtime_dependency 'iteraptor', '~> 0.10'
   s.add_runtime_dependency 'thor', '~> 1.2'
   s.add_runtime_dependency 'yajl-ruby', '~> 1.4'
 

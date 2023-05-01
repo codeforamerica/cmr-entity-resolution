@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'thor'
+require_relative '../lib/config'
+require_relative '../lib/export'
+
+class Exporter < Thor
+  desc 'export', 'Export the data set to an external destination'
+  option :config, desc: 'Path to the configuration file for this data set',
+                 default: File.expand_path(File.join(__dir__, '../config/config.yml'))
+  def export
+    config = Config.from_file(options[:config])
+    export = Export.new(config)
+
+    export.from_file
+
+    say_status('success', 'Export complete!')
+  end
+end
+
+Exporter.start(ARGV)

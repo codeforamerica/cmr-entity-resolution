@@ -26,7 +26,7 @@ class Postprocess < Thor
 
       entity[:RESOLVED_ENTITY][:RECORDS].each do |record|
         record[:ENTITY_ID] = entity_id
-        Transformation::transform(config, record)
+        Transformation.transform(config, record)
 
         # TODO: Format into a hash to include in the array.
         output = {}
