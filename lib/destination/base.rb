@@ -3,17 +3,20 @@
 module Destination
   # Base class for destinations.
   class Base
+    # Initialize a new destination.
+    #
+    # @param destination_config [Hash] Configuration for this destination.
     def initialize(destination_config = {})
       @destination_config = defaults.merge(destination_config)
     end
 
-    # Adds an entity to the destination.
+    # Adds a record to the destination.
     #
-    # @param entity ??????
+    # @param record [Hash] Record to add to the destination.
     #
     # @raise NotImplementedError
-    def add_record(entity)
-      raise NotImplementedError, 'Base class should be be instantiated.'
+    def add_record(record)
+      raise NotImplementedError, 'Base class should not be instantiated.'
     end
 
     private
