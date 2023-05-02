@@ -54,4 +54,4 @@ destination:
     - potential_person_id
     - potential_match_score
   # TODO: Remove this option once we can export via the API.
-  export_file: /Users/jarmes/IdeaProjects/cmr-entity-resolution/data/export/export.json
+  export_file: /home/senzing/export.json

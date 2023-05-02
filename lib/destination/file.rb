@@ -5,8 +5,8 @@ require_relative 'base'
 module Destination
   # File destination for exported data.
   class File < Base
-    def add_record(entity)
-      file.puts(format_entity(entity))
+    def add_record(record)
+      file.puts(format_record(record))
     end
 
     private
@@ -29,11 +29,12 @@ module Destination
       @destination_config[:overwrite] ? 'w' : 'a'
     end
 
-    # Formats the entity to an appropriate string to be written to the file.
+    # Formats the record to an appropriate string to be written to the file.
     #
+    # @param record [Hash] Record to be formatted.
     # @return [String]
-    def format_entity(entity)
-      entity.to_s
+    def format_record(record)
+      record.to_s
     end
   end
 end

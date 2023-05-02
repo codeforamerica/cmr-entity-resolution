@@ -2,7 +2,6 @@
 
 require 'csv'
 require 'iteraptor'
-
 require_relative 'file'
 
 module Destination
@@ -19,8 +18,8 @@ module Destination
                            write_headers: true, headers: @destination_config[:headers])
     end
 
-    def format_entity(entity)
-      entity.iteraptor.flatten.values
+    def format_record(record)
+      record.iteraptor.flatten.values
     end
   end
 end

@@ -7,8 +7,8 @@ module Destination
   class JSONL < File
     private
 
-    def format_entity(entity)
-      entity.to_json
+    def format_record(record)
+      record.to_json
     end
   end
 end
