@@ -72,6 +72,8 @@ destination:
   export_file: /home/senzing/export.json
 ```
 
+Check out the [Export to Mongo][mongo-example] to see this in action.
+
 ## JSONL
 
 Write records to a [JSON Lines][jsonl] formatted file. Each record will be
@@ -97,5 +99,7 @@ destination:
 ```
 
 [jsonl]: https://jsonlines.org/
+[mongo]: https://www.mongodb.com/
+[mongo-example]: examples/export-to-mongo.md
 [^1]: Use of an export file is temporary until records can be exported directly
 using the API.

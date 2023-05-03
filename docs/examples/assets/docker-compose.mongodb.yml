@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:${SENZING_DOCKER_IMAGE_VERSION_MONGO:-latest}
+    environment:
+      # See https://hub.docker.com/_/mongo
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-mongodb}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_DATABASE: people
+    networks:
+      - senzing
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongo:/data/db
+
+  mongoui:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-mongodb}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_OPTIONS_EDITORTHEME: ${MONGO_UI_EDITOR_THEME:-darcula}
+    networks:
+      - senzing
+    ports:
+      - 8081:8081
+    restart: always
+
+networks:
+  senzing:
+    name: ${SENZING_DOCKER_NETWORK:-senzing-network}
+
+volumes:
+  mongo:
