@@ -1,0 +1,53 @@
+log_level: debug
+match_level: 2
+match_score: 5
+field_map:
+  pre:
+    party_id: RECORD_ID
+    last_name: PRIMARY_NAME_LAST
+    first_name: PRIMARY_NAME_FIRST
+    gender: GENDER
+    birth_date: DATE_OF_BIRTH
+    dr_lic_num: DRIVERS_LICENSE_NUMBER
+    dr_lic_state: DRIVERS_LICENSE_STATE
+    ssn: SSN_NUMBER
+    address_1: HOME_ADDR_LINE1
+    address_2: HOME_ADDR_LINE2
+    city: HOME_ADDR_CITY
+    state_code: HOME_ADDR_STATE
+    zip_code: HOME_ADDR_POSTAL_CODE
+    bus_phone: WORK_PHONE_NUMBER
+    home_phone: CELL_PHONE_NUMBER
+    email_address: EMAIL_ADDRESS
+    otn: OTHER_ID_NUMBER
+    party_code: TYPE
+  post:
+    ENTITY_ID: person_id
+    DATABASE: database
+    PARTY_ID: party_id
+    MATCH_SCORE: match_score
+    RELATED_RECORD_ID: potential_person_id
+    RELATED_MATCH_SCORE: potential_match_score
+filters:
+  - NonHuman
+  - filter: ValueIs
+    field: TYPE
+    value: DEF
+    inverse: false
+transformations:
+  - transform: SplitValue
+    field: RECORD_ID
+    delimiter: "-"
+    parts:
+      0: DATABASE
+      1: PARTY_ID
+
+destination:
+  type: Mongo
+  database: people
+  collection: people
+  hosts:
+    - "mongo:27017"
+  username: root
+  password: mongodb
+  export_file: /etc/cmr/export/export.json

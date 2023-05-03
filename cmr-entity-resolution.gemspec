@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Code for America']
   s.email       = 'cmr@codeforamerica.org'
   s.bindir = 'exe'
-  s.executables = %w[postprocess preprocess]
+  s.executables = %w[exporter postprocess preprocess]
   s.files       = Dir['lib/**/*'] +
                   Dir['config/*'] +
                   Dir['exe/*'] +
