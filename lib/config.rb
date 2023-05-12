@@ -25,7 +25,7 @@ class Config
   end
 
   attr_accessor :destination, :field_map, :filters, :log_level, :logger,
-                :match_level, :match_score, :transformations
+                :match_level, :match_score, :senzing, :source, :transformations
 
   def initialize
     defaults
@@ -43,6 +43,8 @@ class Config
     @log_level = 'WARN'
     @match_level = 2
     @match_score = 5
+    @senzing = {}
+    @source = {}
     @transformations = []
   end
 
