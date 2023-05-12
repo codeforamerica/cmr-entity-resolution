@@ -1,0 +1,51 @@
+# Sources
+
+When importing data into Senzing, you can configure the source of the data. The
+preprocessor will be run on each record from the source before it is inserted
+into Senzing. 
+
+In addition to the configuration options below, the senzing client can be
+configured. See [Configuring Senzing][senzing-config] for more information.
+
+## Common configuration options
+
+| Option      | Default | Required | Description                                                                |
+|-------------|---------|----------|----------------------------------------------------------------------------|
+| type        |         | YES      | The type of source to use. Should be the name of one of the sources below. |
+| field_map   | [ ]     | NO       | A mapping of fields from the source to their Senzing counterparts.         |
+
+Senzing uses a [generic entity specification][entity-spec] as their expected
+format for records. If the field names in your source data _do not_ match those
+defined in the specification, you _must_ define an appropriate `field_map`.
+
+## CSV
+
+Read records from a local CSV file.
+
+### Configuration
+
+The following options are available for this destination.
+
+| Option | Default | Required | Description               |
+|--------|---------|----------|---------------------------|
+| path   |         | YES      | The path to the CSV file. |
+
+### Example
+
+```yaml
+source:
+  type: CSV
+  path: /home/senzing/import.csv
+  field_map:
+    party_id: RECORD_ID
+    last_name: PRIMARY_NAME_LAST
+    first_name: PRIMARY_NAME_FIRST
+    gender: GENDER
+    birth_date: DATE_OF_BIRTH
+    dr_lic_num: DRIVERS_LICENSE_NUMBER
+    dr_lic_state: DRIVERS_LICENSE_STATE
+    ssn: SSN_NUMBER
+```
+
+[entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
+[senzing-config]: configuring-senzing.md

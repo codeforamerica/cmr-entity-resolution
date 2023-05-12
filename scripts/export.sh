@@ -8,7 +8,6 @@ TEXT_COLOR="\033[1;34m"
 
 echo "Config file: $CONFIG_FILE"
 echo "Input file : $INPUT_FILE"
-echo "Output file: $OUTPUT_FILE"
 
 # TODO: Use the API to export records.
 PROJECT_NAME="export-$(date "+%Y-%m-%dT%H:%M")"

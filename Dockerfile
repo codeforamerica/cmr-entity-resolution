@@ -7,9 +7,9 @@ ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
 ENV TERM=xterm
 
 # Update packages and install additional dependencies.
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
       apt-transport-https \
       apt-utils \
       gnupg \
@@ -20,13 +20,13 @@ RUN apt update && \
 
 # Add the senzing repo and install the API.
 RUN wget https://senzing-production-apt.s3.amazonaws.com/senzingrepo_1.0.0-1_amd64.deb && \
-    apt install -y ./senzingrepo_1.0.0-1_amd64.deb && \
-    apt update && \
-    apt install -y senzingapi && \
+    apt-get install -y ./senzingrepo_1.0.0-1_amd64.deb && \
+    apt-get update && \
+    apt-get install -y senzingapi && \
     rm ./senzingrepo_1.0.0-1_amd64.deb
 
 # Clean up.
-RUN apt autoremove && apt clean
+RUN apt-get autoremove && apt-get clean
 
 # Copy the configurations from the senzingapi-runtime image.
 COPY --from=configs /etc/opt/senzing /etc/opt/senzing

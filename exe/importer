@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'thor'
+require_relative '../lib/config'
+require_relative '../lib/import'
+
+class Importer < Thor
+  desc 'import', 'Import data from a configured source into Senzing'
+  option :config, desc: 'Path to the configuration file for this data set',
+                 default: File.expand_path(File.join(__dir__, '../config/config.yml'))
+  def import
+    config = Config.from_file(options[:config])
+    import = Import.new(config)
+
+    import.import
+
+    say_status('success', 'Import complete!')
+  end
+end
+
+Importer.start(ARGV)
