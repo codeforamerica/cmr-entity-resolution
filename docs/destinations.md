@@ -8,8 +8,8 @@ written to the destination.
 
 | Option          | Default | Required | Description                                                                          |
 |-----------------|---------|----------|--------------------------------------------------------------------------------------|
-| type            |         | YES      | The type of destination to use. Should be the name of one of the destinations below. |
 | export_file[^1] |         | YES      | Path to the JSON export from Senzing.                                                |
+| type            |         | YES      | The type of destination to use. Should be the name of one of the destinations below. |
 
 ## CSV
 
@@ -21,9 +21,9 @@ The following options are available for this destination.
 
 | Option    | Default | Required | Description                                             |
 |-----------|---------|----------|---------------------------------------------------------|
-| path      |         | YES      | The path to write the CSV file.                         |
-| overwrite | false   | NO       | Overwrite the existing file instead of appending to it. |
 | headers   | [ ]     | NO       | List of headers to write to the CSV file.               |
+| overwrite | false   | NO       | Overwrite the existing file instead of appending to it. |
+| path      |         | YES      | The path to write the CSV file.                         |
 
 ### Example
 
@@ -52,11 +52,11 @@ The following options are available for this destination.
 
 | Option     | Default | Required | Description                                               |
 |------------|---------|----------|-----------------------------------------------------------|
-| hosts      | [ ]     | YES      | List of hosts with port to connect to.                    |
-| username   |         | YES      | Username to authenticate with.                            |
-| password   |         | YES      | Password to authenticate with.                            |
-| database   | people  | NO       | The name of the database that records will be added to.   |
 | collection | people  | NO       | The name of the collection that records will be added to. |
+| database   | people  | NO       | The name of the database that records will be added to.   |
+| hosts      | [ ]     | YES      | List of hosts with port to connect to.                    |
+| password   |         | YES      | Password to authenticate with.                            |
+| username   |         | YES      | Username to authenticate with.                            |
 
 ### Example
 
@@ -85,8 +85,8 @@ The following options are available for this destination.
 
 | Option    | Default | Required | Description                                             |
 |-----------|---------|----------|---------------------------------------------------------|
-| path      |         | YES      | The path to write the JSONL file.                       |
 | overwrite | false   | NO       | Overwrite the existing file instead of appending to it. |
+| path      |         | YES      | The path to write the JSONL file.                       |
 
 ### Example
 

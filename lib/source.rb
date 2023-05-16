@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'source/csv'
+require_relative 'source/informix'
 
 # Helper methods for loading sources.
 module Source
