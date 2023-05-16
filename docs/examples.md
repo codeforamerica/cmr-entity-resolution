@@ -7,4 +7,9 @@ functionality of this entity resolution system.
 
 * [Export to Mongo][export-to-mongo]
 
+## Sources
+
+* [Import from Informix][import-from-informix]
+
 [export-to-mongo]: examples/export-to-mongo.md
+[import-from-informix]: examples/import-from-informix.md

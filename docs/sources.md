@@ -85,8 +85,10 @@ source:
     dr_lic_state: DRIVERS_LICENSE_STATE
     ssn: SSN_NUMBER
 ```
+Check out the [Import from Informix][informix-example] to see this in action.
 
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
 [informix]: https://www.ibm.com/products/informix
+[informix-example]: examples/import-from-informix.md
 [senzing-config]: configuring-senzing.md
 [^1]: Transport Layer Security

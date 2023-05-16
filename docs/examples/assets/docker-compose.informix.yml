@@ -1,0 +1,33 @@
+version: '3'
+services:
+  informix:
+    image: ibmcom/informix-developer-database:${SENZING_DOCKER_IMAGE_VERSION_INFORMIX:-latest}
+    environment:
+      # See https://github.com/informix/informix-dockerhub-readme
+      INFORMIX_PASSWORD: ${INFORMIX_PASSWORD:-password}
+      INFORMIXDIR: /opt/ibm/informix
+      INFORMIXSERVER: informix
+      INIT_FILE: informix-schema.sql
+      LICENSE: accept
+    networks:
+      - senzing
+    ports:
+      - 9088:9088 # TCP?
+      - 9089:9089 # SQL connections
+      - 27018:27018 # REST?
+    restart: always
+    volumes:
+      - informix:/opt/ibm/data
+      - type: bind
+        source: ./docs/examples/assets/informix-schema.sql
+        target: /opt/ibm/config/informix-schema.sql
+      - type: bind
+        source: ./docs/examples/assets/people.unl
+        target: /opt/ibm/config/people.unl
+
+networks:
+  senzing:
+    name: ${SENZING_DOCKER_NETWORK:-senzing-network}
+
+volumes:
+  informix:
