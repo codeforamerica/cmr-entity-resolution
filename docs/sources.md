@@ -11,8 +11,8 @@ configured. See [Configuring Senzing][senzing-config] for more information.
 
 | Option      | Default | Required | Description                                                                |
 |-------------|---------|----------|----------------------------------------------------------------------------|
-| type        |         | YES      | The type of source to use. Should be the name of one of the sources below. |
 | field_map   | [ ]     | NO       | A mapping of fields from the source to their Senzing counterparts.         |
+| type        |         | YES      | The type of source to use. Should be the name of one of the sources below. |
 
 Senzing uses a [generic entity specification][entity-spec] as their expected
 format for records. If the field names in your source data _do not_ match those
@@ -24,7 +24,7 @@ Read records from a local CSV file.
 
 ### Configuration
 
-The following options are available for this destination.
+The following options are available for this source.
 
 | Option | Default | Required | Description               |
 |--------|---------|----------|---------------------------|
@@ -47,5 +47,46 @@ source:
     ssn: SSN_NUMBER
 ```
 
+## Informix
+
+Query an [IBM Informix][informix] database for records to import.
+
+### Configuration
+
+The following options are available for this source.
+
+| Option   | Default   | Required | Description                                                                  |
+|----------|-----------|----------|------------------------------------------------------------------------------|
+| database |           | YES      | Database to read from.                                                       |
+| host     |           | YES      | Informix host to connect to.                                                 |
+| password |           | YES      | Password for the database user.                                              |
+| security | nil       | NO       | Set to "SSL" in order to utilize TLS[^1].                                    |
+| schema   | $username | NO       | Schema that the database is attached to. Defaults to the same as `username`. |
+| table    |           | YES      | Table that contains the records to be imported                               |
+| username |           | YES      | User with access to the database                                             |
+
+### Example
+
+```yaml
+source:
+  type: Informix
+  host: localhost
+  database: people
+  table: people
+  username: informix
+  password: password
+  field_map:
+    party_id: RECORD_ID
+    last_name: PRIMARY_NAME_LAST
+    first_name: PRIMARY_NAME_FIRST
+    gender: GENDER
+    birth_date: DATE_OF_BIRTH
+    dr_lic_num: DRIVERS_LICENSE_NUMBER
+    dr_lic_state: DRIVERS_LICENSE_STATE
+    ssn: SSN_NUMBER
+```
+
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
+[informix]: https://www.ibm.com/products/informix
 [senzing-config]: configuring-senzing.md
+[^1]: Transport Layer Security
