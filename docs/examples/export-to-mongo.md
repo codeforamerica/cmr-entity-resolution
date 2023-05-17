@@ -27,7 +27,7 @@ configure the containers:
 | MONGO_UI_EDITOR_THEME      | darcula | Theme used for the Mongo Express editor. |
 
 Whether you already have the entity resolution system up and you just want to
-add the Mongo containers or your need to launch the full stack, you can do so
+add the Mongo containers, or your need to launch the full stack, you can do so
 with the following:
 
 ```bash
@@ -49,11 +49,11 @@ See [README.md][readme:import] for more information on importing and exporting.
 
 ```bash
 cp docs/examples/assets/import.csv data/import/import.csv
-export LOADER_CONFIG_FILE="$(pwd)/docs/examples/assets/config.mongo.yml"
-docker compose up loader
+export IMPORTER_CONFIG_FILE="$(pwd)/docs/examples/assets/config.mongo.yml"
+docker compose up importer
 ```
 
-Once the loader container exits, your data is now in Senzing!
+Once the importer container exits, your data is now in Senzing!
 
 ## Exporting
 

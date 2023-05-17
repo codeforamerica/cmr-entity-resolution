@@ -61,53 +61,9 @@ docker compose down --volumes
 
 ## Importing & exporting
 
-The `loader` and `exporter` containers can be used to import records and
-export entity matches. These containers mount the contents of `data/import` and
-`data/export` from the root of this repository, respectively.
-
-See the [documentation][processing] on pre and postprocessing for information
-on how to format your configuration file.
-
-### Importing
-
-Make sure the file to be imported is in a CSV format and place it at
-`data/import/import.csv`. Your configuration file for preprocessing should be at
-`config/config.yml`; however, this can be overridden by setting the
-`LOADER_CONFIG_FILE` environment variable to the local path.
-
-Launch the loader container by running the following:
-
-```bash
-docker up -d loader
-```
-
-This will build the container (if needed) and run the preprocessor before
-importing records into Senzing. The preprocessed file can be found at
-`data/import/import.json`.
-
-### Exporting
-
-Your configuration file for postprocessing should be at `config/config.yml`;
-however, this can be overridden by setting the `EXPORTER_CONFIG_FILE`
-environment variable to the local path.
-
-_Note: You can use the same configuration file for imports and exports._
-
-Launch the exporter container by running the following:
-
-```bash
-docker up -d exporter
-```
-
-This will build the container (if needed), export the records from senzing, then
-run the postprocessor to create the entity match file. The export can be found
-at `data/export/export.json` and the entity match file can be found at
-`data/export/matches.csv`.
-
-### Manual import & export
-
-You can use the `tools` container to perform manual imports and exports. See
-the [additional documentation][manual-import-export] for more information.
+Data can be imported and exported using either the included CLI command or
+docker container. See [Importing & Exporting][import-export] for more
+information on how to get data in and out of Senzing.
 
 ## Examples
 
@@ -117,5 +73,4 @@ in action.
 [docker-compose]: https://docs.docker.com/compose/
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
 [examples]: docs/examples.md
-[manual-import-export]: docs/manual-import-export.md
-[processing]: docs/processing.md#config
+[import-export]: docs/importing-exporting.md

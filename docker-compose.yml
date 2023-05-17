@@ -135,7 +135,7 @@ services:
       - senzing
     command: run
 
-  loader:
+  importer:
     profiles:
       - load
     depends_on:
@@ -159,7 +159,7 @@ services:
       - senzing
     command: load
     volumes:
-      - ${LOADER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
+      - ${IMPORTER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
       - ./data/import:/etc/cmr/import
 
   exporter:
