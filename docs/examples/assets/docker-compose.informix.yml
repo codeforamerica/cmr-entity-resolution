@@ -12,9 +12,7 @@ services:
     networks:
       - senzing
     ports:
-      - 9088:9088 # TCP?
-      - 9089:9089 # SQL connections
-      - 27018:27018 # REST?
+      - 9089:9089
     restart: always
     volumes:
       - informix:/opt/ibm/data
