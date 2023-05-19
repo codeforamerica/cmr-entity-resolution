@@ -15,10 +15,13 @@ class Import
 
   # Import records from a configured source into Senzing.
   def import
-    source.each do |record|
-      next unless filter(record)
+    sources.each do |source|
+      @config.logger.info("Importing data from #{source.name}")
+      source.each do |record|
+        next unless filter(record)
 
-      senzing.upsert_record(record)
+        senzing.upsert_record(record)
+      end
     end
   end
 
@@ -39,10 +42,12 @@ class Import
     @senzing ||= Senzing.new(@config)
   end
 
-  # Loads the appropriate destination to proxy calls.
+  # Loads the appropriate sources based on configurations.
   #
   # @return [Source::Base]
-  def source
-    @source ||= Source.from_config(@config.source)
+  def sources
+    @sources ||= @config.sources.map do |source|
+      Source.from_config(source)
+    end
   end
 end

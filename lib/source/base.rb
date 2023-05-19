@@ -15,7 +15,17 @@ module Source
     # @yield
     # @yieldparam record [Hash] A single record from the source.
     def each
-      raise NotImplementedError, 'Base class does not records to iterate over.'
+      raise NotImplementedError, 'Base class nas no records to iterate over.'
+    end
+
+    # Name of the current source.
+    #
+    # Defaults to the class name (without namespace) if no name has been
+    # specified in the configuration for the source.
+    #
+    # @return [String]
+    def name
+      @source_config[:name] || self.class.name.split('::').last
     end
 
     private
