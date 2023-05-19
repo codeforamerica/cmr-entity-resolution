@@ -1,7 +1,26 @@
 # Transformations
 
-The following transformations can be added to your configuration file for
-postprocessing.
+The following transformations can be added to your configuration file for both
+imports and exports. They can be applied to individual sources and destinations
+to allow for more flexibility.
+
+For example:
+
+```yaml
+sources:
+  - type: CSV
+    ...
+    transformations:
+      - transform: StaticValue
+        field: SOURCE
+        value: "Court CSV"
+  - type: CSV
+    ...
+    transformations:
+      - transform: StaticValue
+        field: SOURCE
+        value: "Repository CSV"
+```
 
 ## SplitValue
 
@@ -19,7 +38,9 @@ The following options are available for this transformation.
 | delimiter | ,       | NO       | The delimiter to split the value on. |
 
 The `parts` option should specify each index to be saved along with the field to
-save that part to. For example:
+save that part to.
+
+### Example
 
 ```yaml
 - transform: SplitValue
@@ -44,3 +65,12 @@ The following options are available for this transformation.
 |---------|---------|----------|-------------------------------------|
 | field   |         | YES      | The field to set the value into.    |
 | value   |         | YES      | Static value to set into the field. |
+
+
+### Example
+
+```yaml
+- transform: StaticValue
+  field: SAMPLE_FIELD
+  value: "Sample value"
+```

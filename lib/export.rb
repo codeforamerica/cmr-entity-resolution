@@ -25,7 +25,7 @@ class Export
   private
 
   def process_record(record)
-    Transformation.transform(@config, record)
+    Transformation.transform(@config, record, destination.config[:transformations])
 
     # Map fields.
     output = {}

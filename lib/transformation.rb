@@ -9,10 +9,10 @@ module Transformation
   #
   # @param config [Config] Configuration object.
   # @param record [CSV::Row] The record to transform.
+  # @param transformations [Array<Hash>] Array of transformation configurations.
   # @return [Boolean] Whether or not this record was transformed.
-  def self.transform(config, record)
-    # TODO: Do transformations need a return value?
-    result = config.transformations.any? do |filter|
+  def self.transform(config, record, transformations)
+    result = transformations.any? do |filter|
       transform_from_config(filter).transform(record)
     end
 

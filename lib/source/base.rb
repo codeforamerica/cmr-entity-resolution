@@ -10,6 +10,13 @@ module Source
       @source_config = defaults.merge(source_config)
     end
 
+    # Returns the configuration for the current source.
+    #
+    # @return [Hash]
+    def config
+      @source_config
+    end
+
     # Iterator for records from the source.
     #
     # @yield

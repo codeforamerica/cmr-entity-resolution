@@ -34,13 +34,6 @@ filters:
     field: TYPE
     value: DEF
     inverse: false
-transformations:
-  - transform: SplitValue
-    field: RECORD_ID
-    delimiter: "-"
-    parts:
-      0: DATABASE
-      1: PARTY_ID
 
 destination:
   type: Mongo
@@ -51,3 +44,10 @@ destination:
   username: root
   password: mongodb
   export_file: /etc/cmr/export/export.json
+  transformations:
+    - transform: SplitValue
+      field: RECORD_ID
+      delimiter: "-"
+      parts:
+        0: DATABASE
+        1: PARTY_ID

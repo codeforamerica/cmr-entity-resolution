@@ -3,6 +3,7 @@
 require_relative 'filter'
 require_relative 'senzing'
 require_relative 'source'
+require_relative 'transformation'
 
 # Imports data from a configured destination into Senzing.
 class Import
@@ -15,11 +16,12 @@ class Import
 
   # Import records from a configured source into Senzing.
   def import
-    sources.each do |source|
+    each_source do |source|
       @config.logger.info("Importing data from #{source.name}")
       source.each do |record|
         next unless filter(record)
 
+        transform(source, record)
         senzing.upsert_record(record)
       end
     end
@@ -35,6 +37,10 @@ class Import
     Filter.filter(@config, record)
   end
 
+  def transform(source, record)
+    Transformation.transform(@config, record, source.config[:transformations])
+  end
+
   # Loads the Senzing client and proxies calls.
   #
   # @return [Senzing]
@@ -42,12 +48,13 @@ class Import
     @senzing ||= Senzing.new(@config)
   end
 
-  # Loads the appropriate sources based on configurations.
+  # Iterator for configured sources.
   #
-  # @return [Source::Base]
-  def sources
-    @sources ||= @config.sources.map do |source|
-      Source.from_config(source)
+  # @yield
+  # @yieldparam source [Source::Base] A source object for data imports.
+  def each_source
+    @sources ||= @config.sources.each do |source|
+      yield Source.from_config(source)
     end
   end
 end
