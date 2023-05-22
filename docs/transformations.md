@@ -53,6 +53,32 @@ save that part to.
 
 Note that if a part is empty, that field's value will be set to `nil`.
 
+## StaticPrefix
+
+This transformation will add a static prefix to an exising value and place the
+result into a defined field.
+
+### Configuration
+
+The following options are available for this transformation.
+
+| Option       | Default | Required | Description                                                             |
+|--------------|---------|----------|-------------------------------------------------------------------------|
+| destination  | $field  | NO       | Field to write the results to. Defaults to the value of `field`.        |
+| field        |         | YES      | The field to get the current value from.                                |
+| if_not_empty | true    | NO       | When `true`, only applies the prefix when the field value is not empty. |
+| prefix       |         | YES      | The static prefix to add to the value.                                  |
+
+
+### Example
+
+```yaml
+- transform: StaticPrefix
+  field: OTHER_ID_PARTY
+  value: C-
+  destination: RECORD_ID
+```
+
 ## StaticValue
 
 This transformation will set a static value into a field.

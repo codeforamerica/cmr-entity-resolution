@@ -39,10 +39,13 @@ module Source
 
     # Maps a field from the source to its mapped counterpart.
     #
+    # If there is no map for the specified field, the field name will be
+    # returned as a symbol.
+    #
     # @param field [String] The name of the field to get the mapping for.
-    # @return [String] The mapped field name.
+    # @return [Symbol] The mapped field name.
     def field_mapper(field)
-      @source_config[:field_map][field.to_sym].to_sym
+      @source_config[:field_map][field.to_sym]&.to_sym || field.to_sym
     end
 
     # Define default configuration values.

@@ -3,7 +3,7 @@ match_level: 2
 match_score: 5
 field_map:
   pre:
-    party_id: RECORD_ID
+    party_id: OTHER_ID_PARTY
     last_name: PRIMARY_NAME_LAST
     first_name: PRIMARY_NAME_FIRST
     gender: GENDER
@@ -50,7 +50,7 @@ sources:
     username: informix
     password: password
     field_map:
-      party_id: RECORD_ID
+      party_id: OTHER_ID_PARTY
       last_name: PRIMARY_NAME_LAST
       first_name: PRIMARY_NAME_FIRST
       gender: GENDER
@@ -68,6 +68,11 @@ sources:
       email_address: EMAIL_ADDRESS
       otn: OTHER_ID_NUMBER
       party_code: TYPE
+    transformations:
+      - transform: StaticPrefix
+        field: OTHER_ID_PARTY
+        prefix: C-
+        destination: RECORD_ID
 
 destination:
   type: CSV
