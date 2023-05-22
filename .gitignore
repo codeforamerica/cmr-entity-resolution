@@ -8,6 +8,7 @@ config/*
 !config/config.sample.yml
 
 # Ignore installed dependencies.
+.bundle
 bin
 vendor
 
