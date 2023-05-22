@@ -2,8 +2,7 @@
 
 Data can be imported from a number of [sources] and exported to several
 [destinations]. Before you begin, you will need a configuration file with
-settings for your source and [filters] (importing) and/or your destination and
-[transformations] (exporting).
+settings for your source, destination, [filters], and [transformations].
 
 > _Note: All commands listed in this document are run from the root directory of
 > this project._

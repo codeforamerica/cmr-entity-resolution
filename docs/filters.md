@@ -14,6 +14,19 @@ These keywords can be found in [`non_human.yml`][non_human].
 
 This filter has no configuration options.
 
+### Example
+
+```yaml
+  - filter: NonHuman 
+```
+
+Alternatively, since there are no configuration options, you can use the short
+form:
+
+```yaml
+  - NonHuman
+```
+
 ## ValueIs
 
 This filter will compare a field's value with a static value and can be used to
@@ -28,5 +41,14 @@ The following options are available for this filter.
 | field   |         | YES      | The field to be evaluated.               |
 | value   |         | YES      | Static value for comparison.             |
 | inverse | false   | NO       | Set to true for a not equals comparison. |
+
+### Example
+
+```yaml
+- filter: ValueIs
+  field: TYPE
+  value: DEF
+  inverse: false
+```
 
 [non_human]: ../lib/filter/non_human.yml

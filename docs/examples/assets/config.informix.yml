@@ -34,27 +34,12 @@ filters:
     field: TYPE
     value: DEF
     inverse: false
-transformations:
-  - transform: SplitValue
-    field: RECORD_ID
-    delimiter: "-"
-    parts:
-      0: DATABASE
-      1: PARTY_ID
 
-destination:
-  type: CSV
-  path: /etc/cmr/export/export.csv
-  overwrite: true
-  headers:
-    - person_id
-    - database
-    - party_id
-    - match_score
-    - potential_person_id
-    - potential_match_score
-  # TODO: Remove this option once we can export via the API.
-  export_file: /etc/cmr/export/export.json
+senzing:
+  host: api
+  port: 8250
+  data_source: PEOPLE
+  tls: false
 
 sources:
   - name: Informix Database
@@ -84,8 +69,23 @@ sources:
       otn: OTHER_ID_NUMBER
       party_code: TYPE
 
-senzing:
-  host: api
-  port: 8250
-  data_source: PEOPLE
-  tls: false
+destination:
+  type: CSV
+  path: /etc/cmr/export/export.csv
+  overwrite: true
+  headers:
+    - person_id
+    - database
+    - party_id
+    - match_score
+    - potential_person_id
+    - potential_match_score
+  # TODO: Remove this option once we can export via the API.
+  export_file: /etc/cmr/export/export.json
+  transformations:
+    - transform: SplitValue
+      field: RECORD_ID
+      delimiter: "-"
+      parts:
+        0: DATABASE
+        1: PARTY_ID

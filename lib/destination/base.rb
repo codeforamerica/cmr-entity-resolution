@@ -10,6 +10,13 @@ module Destination
       @destination_config = defaults.merge(destination_config)
     end
 
+    # Returns the configuration for the current destination.
+    #
+    # @return [Hash]
+    def config
+      @destination_config
+    end
+
     # Adds a record to the destination.
     #
     # @param record [Hash] Record to add to the destination.
