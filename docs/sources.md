@@ -1,8 +1,8 @@
 # Sources
 
 When importing data into Senzing, you can configure one or more sources for the
-data. The preprocessor will be run on each record from the source before it is
-inserted into Senzing. 
+data. [Filters] and [transformations] will be run on each record from the source
+before it is inserted into Senzing. 
 
 In addition to the configuration options below, the senzing client can be
 configured. See [Configuring Senzing][senzing-config] for more information.
@@ -89,7 +89,9 @@ sources:
 Check out the [Import from Informix][informix-example] to see this in action.
 
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
+[filters]: filters.md
 [informix]: https://www.ibm.com/products/informix
 [informix-example]: examples/import-from-informix.md
 [senzing-config]: configuring-senzing.md
+[transformations]: transformations.md
 [^1]: Transport Layer Security

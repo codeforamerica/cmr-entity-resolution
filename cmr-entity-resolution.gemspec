@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.description = 'An entity resolution solution for automated record clearance.'
   s.authors     = ['Code for America']
   s.email       = 'cmr@codeforamerica.org'
-  s.bindir = 'exe'
-  s.executables = %w[exporter importer postprocess preprocess]
+  s.bindir      = 'exe'
+  s.executables = %w[exporter importer]
   s.files       = Dir['lib/**/*'] +
                   Dir['config/*'] +
                   Dir['exe/*'] +

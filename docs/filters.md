@@ -1,6 +1,8 @@
 # Filters
 
-The following filters can be added to your configuration file for preprocessing.
+The following filters can be added to your configuration file to filter records
+from the [source] before they are imported into Senzing. Filters are run
+_before_ [transformations], but after the field map has been applied.
 
 ## NonHuman
 
@@ -52,3 +54,5 @@ The following options are available for this filter.
 ```
 
 [non_human]: ../lib/filter/non_human.yml
+[source]: sources.md
+[transformations]: transformations.md

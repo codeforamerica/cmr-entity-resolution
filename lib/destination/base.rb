@@ -32,7 +32,7 @@ module Destination
     #
     # @return [Hash]
     def defaults
-      {}
+      { field_map: [] }
     end
   end
 end
