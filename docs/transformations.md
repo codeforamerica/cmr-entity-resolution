@@ -1,8 +1,8 @@
 # Transformations
 
 The following transformations can be added to your configuration file for both
-imports and exports. They can be applied to individual sources and destinations
-to allow for more flexibility.
+[imports and exports][imports-exports]. They can be applied to individual
+[sources] and [destinations] to allow for more flexibility.
 
 For example:
 
@@ -100,3 +100,7 @@ The following options are available for this transformation.
   field: SAMPLE_FIELD
   value: "Sample value"
 ```
+
+[destinations]: destinations.md
+[imports-exports]: importing-exporting.md
+[sources]: sources.md

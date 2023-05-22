@@ -1,8 +1,8 @@
 # Destinations
 
 When exporting data from Senzing, you can configure the destination for the
-resulting data. This data will be run through the postprocessor prior to being
-written to the destination.
+resulting data. [Transformations] will be run on each record from the export
+before it is sent to the destination.
 
 ## Common configuration options
 
@@ -39,6 +39,13 @@ destination:
     - match_score
     - potential_person_id
     - potential_match_score
+  field_map:
+    ENTITY_ID: person_id
+    DATABASE: database
+    PARTY_ID: party_id
+    MATCH_SCORE: match_score
+    RELATED_RECORD_ID: potential_person_id
+    RELATED_MATCH_SCORE: potential_match_score
   export_file: /home/senzing/export.json
 ```
 
@@ -69,6 +76,13 @@ destination:
     - "127.0.0.1:27017"
   username: root
   password: ********
+  field_map:
+    ENTITY_ID: person_id
+    DATABASE: database
+    PARTY_ID: party_id
+    MATCH_SCORE: match_score
+    RELATED_RECORD_ID: potential_person_id
+    RELATED_MATCH_SCORE: potential_match_score
   export_file: /home/senzing/export.json
 ```
 
@@ -95,11 +109,19 @@ destination:
   type: JSONL
   path: /home/senzing/export.csv
   overwrite: false
+  field_map:
+    ENTITY_ID: person_id
+    DATABASE: database
+    PARTY_ID: party_id
+    MATCH_SCORE: match_score
+    RELATED_RECORD_ID: potential_person_id
+    RELATED_MATCH_SCORE: potential_match_score
   export_file: /home/senzing/export.json
 ```
 
 [jsonl]: https://jsonlines.org/
 [mongo]: https://www.mongodb.com/
 [mongo-example]: examples/export-to-mongo.md
+[transformations]: transformations.md
 [^1]: Use of an export file is temporary until records can be exported directly
 using the API.

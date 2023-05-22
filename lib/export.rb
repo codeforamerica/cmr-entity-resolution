@@ -29,7 +29,7 @@ class Export
 
     # Map fields.
     output = {}
-    @config.field_map[:post].each do |field, map|
+    @destination.config[:field_map].each do |field, map|
       output[map] = record[field]
     end
 
