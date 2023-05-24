@@ -15,3 +15,6 @@ vendor
 # Ignore import and export files.
 ./*.csv
 ./*.json
+
+# Ignore test outputs
+coverage
