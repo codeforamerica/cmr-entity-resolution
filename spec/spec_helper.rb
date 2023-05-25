@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Configure code coverage reporting.
 if ENV['COVERAGE']
   require 'simplecov'
 
@@ -11,3 +12,6 @@ if ENV['COVERAGE']
     track_files 'lib/**/*.rb'
   end
 end
+
+# Include shared examples.
+require_relative 'support/examples/proxy_method'
