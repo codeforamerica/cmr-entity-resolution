@@ -39,7 +39,7 @@ RSpec.describe Senzing do
   end
 
   describe '#client' do
-    include_examples 'proxy method', :client do
+    include_examples 'proxy method', :client, Faraday do
       let(:object) { client }
     end
   end

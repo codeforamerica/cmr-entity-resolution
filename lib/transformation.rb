@@ -9,17 +9,17 @@ module Transformation
   # Pass a record through all configured transforms.
   #
   # @param config [Config] Configuration object.
-  # @param record [CSV::Row] The record to transform.
+  # @param record [Hash] The record to transform.
   # @param transformations [Array<Hash>] Array of transformation configurations.
-  # @return [Boolean] Whether or not this record was transformed.
+  # @return [Hash] The resulting record after all transformations have been applied.
   def self.transform(config, record, transformations)
-    result = transformations.any? do |filter|
-      transform_from_config(filter).transform(record)
+    result = transformations.any? do |transformation|
+      transform_from_config(transformation).transform(record)
     end
 
     config.logger.info("Transformations applied to record #{record[:RECORD_ID]}") if result
 
-    result
+    record
   end
 
   # Load a transformation based on the defined configuration.

@@ -21,8 +21,7 @@ class Import
       source.each do |record|
         next unless filter(record)
 
-        transform(source, record)
-        senzing.upsert_record(record)
+        senzing.upsert_record(transform(source, record))
       end
     end
   end
@@ -37,6 +36,11 @@ class Import
     Filter.filter(@config, record)
   end
 
+  # Apply transformations to a record
+  #
+  # @param source [Source::Base] Record source.
+  # @param record [Hash] The record to be transformed.
+  # @return [Hash]
   def transform(source, record)
     Transformation.transform(@config, record, source.config[:transformations])
   end
