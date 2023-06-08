@@ -2,10 +2,12 @@
 
 require 'faraday'
 require_relative 'destination'
-require_relative 'transformation'
+require_relative 'transformable'
 
 # Exports data from senzing into a configured destination.
 class Export
+  include Transformable
+
   def initialize(config)
     @config = config
   end
@@ -25,12 +27,12 @@ class Export
   private
 
   def process_record(record)
-    Transformation.transform(@config, record, destination.config[:transformations])
+    record = transform(destination, record)
 
     # Map fields.
     output = {}
     @destination.config[:field_map].each do |field, map|
-      output[map] = record[field]
+      output[map.to_sym] = record[field]
     end
 
     output

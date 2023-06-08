@@ -9,7 +9,7 @@ module Filter
   # kept.
   #
   # @param config [Config] Configuration object.
-  # @param record [CSV::Row] The record to filter.
+  # @param record [Hash] The record to filter.
   # @return [Boolean] Whether or not this record should be included.
   def self.filter(config, record)
     result = config.filters.all? do |filter|

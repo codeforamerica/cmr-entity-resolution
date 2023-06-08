@@ -5,7 +5,7 @@ FactoryBot.define do
     initialize_with { new({ field_map: [] }) }
 
     after(:build) do |factory|
-      record = { id: 1, first_name: 'Timmy', second_name: 'Testaburger' }
+      record = { id: 1, first_name: 'Timmy', last_name: 'Testaburger' }
       allow(factory).to receive(:each).and_yield(record)
     end
   end

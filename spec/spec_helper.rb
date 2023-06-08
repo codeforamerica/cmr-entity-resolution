@@ -6,8 +6,7 @@ require 'factory_bot'
 if ENV['COVERAGE']
   require 'simplecov'
 
-  # TODO: Enable with a reasonable setting.
-  # SimpleCov.minimum_coverage 50
+  SimpleCov.minimum_coverage 75
   SimpleCov.start do
     add_filter '/spec/'
 

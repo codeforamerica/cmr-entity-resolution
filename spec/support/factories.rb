@@ -7,4 +7,5 @@ end
 
 require_relative 'factories/config_factory'
 require_relative 'factories/senzing_factory'
+require_relative 'factories/destination/csv_factory'
 require_relative 'factories/source/csv_factory'

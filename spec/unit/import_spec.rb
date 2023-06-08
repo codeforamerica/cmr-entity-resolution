@@ -12,7 +12,7 @@ RSpec.describe Import do
   describe '#import' do
     let(:source) { build(:source_csv) }
     let(:senzing) { build(:senzing) }
-    let(:record) { { id: 1, first_name: 'Timmy', second_name: 'Testaburger' } }
+    let(:record) { { id: 1, first_name: 'Timmy', last_name: 'Testaburger' } }
 
     before do
       allow(Source::CSV).to receive(:new).and_return(source)
@@ -25,7 +25,7 @@ RSpec.describe Import do
       let(:included) { true }
 
       context 'when the record has not been transformed' do
-        it 'sends the original record to senzing' do
+        it 'sends the unmodified record to senzing' do
           import.import
 
           expect(senzing).to have_received(:upsert_record).with(record)
