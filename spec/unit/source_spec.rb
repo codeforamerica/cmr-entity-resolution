@@ -10,13 +10,13 @@ RSpec.describe Source do
   describe '.from_config' do
     subject(:concrete) { described_class.from_config(config.sources.first) }
 
-    context 'when a valid destination type is provided' do
-      it 'returns the proper destination' do
+    context 'when a valid source type is provided' do
+      it 'returns the proper source' do
         expect(concrete).to be_a(Source::CSV)
       end
     end
 
-    context 'when an invalid destination type is provided' do
+    context 'when an invalid source type is provided' do
       let(:source_config) { [{ type: 'Invalid' }] }
 
       it 'raises an exception' do
