@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'transformation/satic_prefix'
+require_relative 'transformation/static_prefix'
 require_relative 'transformation/split_value'
 require_relative 'transformation/static_value'
 
