@@ -12,7 +12,7 @@ RSpec.describe Import do
   describe '#import' do
     let(:source) { build(:source_csv) }
     let(:senzing) { build(:senzing) }
-    let(:record) { { id: 1, first_name: 'Timmy', last_name: 'Testaburger' } }
+    let(:record) { { id: 1, first_name: 'Shredward', last_name: 'Whiskers' } }
 
     before do
       allow(Source::CSV).to receive(:new).and_return(source)

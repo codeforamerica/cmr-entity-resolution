@@ -10,8 +10,8 @@ RSpec.describe Export do
   let(:destination) { build(:destination_csv) }
 
   describe '#from_file' do
-    let(:record) { { RECORD_ID: 1, PRIMARY_NAME_FIRST: 'Timmy', PRIMARY_NAME_LAST: 'Testaburger' } }
-    let(:mapped) { { entity_id: 2, first_name: 'Timmy', last_name: 'Testaburger', record_id: 1 } }
+    let(:record) { { RECORD_ID: 1, PRIMARY_NAME_FIRST: 'Shredward', PRIMARY_NAME_LAST: 'Whiskers' } }
+    let(:mapped) { { entity_id: 2, first_name: 'Shredward', last_name: 'Whiskers', record_id: 1 } }
     let(:entity) do
       {
         RESOLVED_ENTITY: {
