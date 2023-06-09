@@ -6,17 +6,18 @@ require_relative '../../lib/senzing'
 RSpec.describe Senzing do
   subject(:senzing) { described_class.new(config) }
 
-  let(:client) { instance_double(Faraday::Connection).tap { |c| allow(c).to receive(:put) } }
   let(:senzing_config) { { data_source: 'RSPEC', tls: false } }
+  let(:stubs)  { Faraday::Adapter::Test::Stubs.new }
+  let(:client) do
+    Faraday.new { |b| b.adapter(:test, stubs) }
+  end
 
   let(:config) do
-    Config.new do |c|
-      c.senzing.merge!(senzing_config)
-    end
+    build(:config, senzing: senzing_config)
   end
 
   before do
-    allow(Faraday).to receive(:new).and_return(client)
+    allow(Faraday).to receive(:new).and_return(client).and_yield(client)
   end
 
   describe '#initialize' do
@@ -33,8 +34,11 @@ RSpec.describe Senzing do
     let(:record) { { RECORD_ID: '1234' } }
 
     it 'writes the records to Senzing' do
+      stubs.put('/data-sources/RSPEC/records/1234') { [200, {}, ''] }
+      expect(client).to receive(:put).and_call_original
+
       senzing.upsert_record(record)
-      expect(client).to have_received(:put)
+      stubs.verify_stubbed_calls
     end
   end
 
