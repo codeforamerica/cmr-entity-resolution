@@ -7,6 +7,13 @@ module Filter
       @filter_config = defaults.merge(filter_config)
     end
 
+    # Returns the configuration for the current filter.
+    #
+    # @return [Hash]
+    def config
+      @filter_config
+    end
+
     # Apply the filter to a record to determine if it should be kept.
     #
     # @param record [CSV::ROW] The record to apply the filter to.

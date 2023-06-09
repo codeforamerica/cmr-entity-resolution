@@ -1,5 +1,6 @@
 require:
   - rubocop-rake
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -10,3 +11,8 @@ AllCops:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+# Favor more explicit contexts over limited nesting.
+RSpec/NestedGroups:
+  AllowedGroups:
+    - context

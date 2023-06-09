@@ -52,7 +52,7 @@ module Source
     #
     # @return [Hash]
     def defaults
-      { field_map: [] }
+      { field_map: {} }
     end
   end
 end

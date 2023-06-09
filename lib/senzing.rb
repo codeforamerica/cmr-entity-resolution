@@ -4,6 +4,8 @@ require 'faraday'
 
 # Client for the Senzing API
 class Senzing
+  attr_reader :config
+
   # Instantiates a new Senzing client object.
   #
   # @param config [Config]

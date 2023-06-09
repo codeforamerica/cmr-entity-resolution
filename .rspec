@@ -1,0 +1,4 @@
+--require spec_helper.rb
+--color
+--format RSpec::Github::Formatter
+--format documentation

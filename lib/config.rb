@@ -29,7 +29,7 @@ class Config
 
   def initialize
     defaults
-    yield self
+    yield self if block_given?
     initialize_logger
   end
 

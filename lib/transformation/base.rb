@@ -7,6 +7,13 @@ module Transformation
       @transform_config = defaults.merge(transform_config)
     end
 
+    # Returns the configuration for the current transformation.
+    #
+    # @return [Hash]
+    def config
+      @transform_config
+    end
+
     # Apply the transformation to a record to determine.
     #
     # @param record [CSV::ROW] The record to transform.

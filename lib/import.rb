@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-require_relative 'filter'
+require_relative 'filterable'
 require_relative 'senzing'
 require_relative 'source'
-require_relative 'transformation'
+require_relative 'transformable'
 
 # Imports data from a configured destination into Senzing.
 class Import
+  include Filterable
+  include Transformable
+
   # Instantiate a new import object.
   #
   # @param config [Config]
@@ -21,25 +24,12 @@ class Import
       source.each do |record|
         next unless filter(record)
 
-        transform(source, record)
-        senzing.upsert_record(record)
+        senzing.upsert_record(transform(source, record))
       end
     end
   end
 
   private
-
-  # Apply filters to a record
-  #
-  # @param record [Hash] The record to apply filters to.
-  # @return [Boolean] Whether or not the record should be included.
-  def filter(record)
-    Filter.filter(@config, record)
-  end
-
-  def transform(source, record)
-    Transformation.transform(@config, record, source.config[:transformations])
-  end
 
   # Loads the Senzing client and proxies calls.
   #
