@@ -36,8 +36,8 @@ RSpec.describe Export do
     end
 
     context 'when the record has been transformed' do
-      let(:record) { super().merge(PRIMARY_NAME_FIRST: 'Bobert')}
-      let(:mapped) { super().merge(first_name: 'Bobert')}
+      let(:record) { super().merge(PRIMARY_NAME_FIRST: 'Bobert') }
+      let(:mapped) { super().merge(first_name: 'Bobert') }
 
       it 'sends the modified record to the destination' do
         export.from_file

@@ -23,22 +23,24 @@ describe Destination::Mongo do
         allow(client).to receive(:[]).and_return(collection)
       end
     end
-    let(:collection) { instance_double(Mongo::Collection) }
+    let(:collection) do
+      instance_double(Mongo::Collection).tap do |collection|
+        allow(collection).to receive(:insert_one)
+      end
+    end
 
     before do
       allow(Mongo::Client).to receive(:new).and_return(client)
     end
 
     it 'writes the record to the database' do
-      expect(collection).to receive(:insert_one)
-
       destination.add_record(records[0])
+      expect(collection).to have_received(:insert_one)
     end
 
     it 'properly formats the record' do
-      expect(collection).to receive(:insert_one).with(records[2])
-
       destination.add_record(records[2])
+      expect(collection).to have_received(:insert_one).with(records[2])
     end
   end
 end

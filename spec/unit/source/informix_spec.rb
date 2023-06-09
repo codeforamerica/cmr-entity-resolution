@@ -16,7 +16,6 @@ describe Source::Informix do
       }
     end
 
-
     include_examples 'source' do
       before do
         allow(Sequel).to receive(:connect).and_return(Sequel.mock(fetch: rows))

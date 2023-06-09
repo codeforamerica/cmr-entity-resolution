@@ -30,6 +30,9 @@ RSpec.describe Senzing do
     end
   end
 
+  # Since we're using an actual Faraday object we can't use message spies so
+  # disable this cop.
+  # rubocop:disable RSpec/MessageSpies
   describe '#upsert_record' do
     let(:record) { { RECORD_ID: '1234' } }
 
@@ -41,6 +44,7 @@ RSpec.describe Senzing do
       stubs.verify_stubbed_calls
     end
   end
+  # rubocop:enable RSpec/MessageSpies
 
   describe '#client' do
     include_examples 'proxy method', :client, Faraday do

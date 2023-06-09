@@ -5,7 +5,7 @@ require_relative '../../../lib/source/csv'
 describe Source::CSV do
   describe '#each' do
     let(:source_config) { { parth: '/rspec/test.csv' } }
-    let(:headers) { %w(record_id first_name last_name) }
+    let(:headers) { %w[record_id first_name last_name] }
 
     include_examples 'source' do
       before do

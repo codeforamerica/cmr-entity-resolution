@@ -30,12 +30,12 @@ RSpec.shared_examples 'transform' do |modified: true, unmodified: true|
       end
 
       before do
-        fail 'Unmatched config or record must be set' unless defined?(unmatched_config) || defined?(unmatched_record)
+        raise 'Unmatched config or record must be set' unless defined?(unmatched_config) || defined?(unmatched_record)
       end
 
       it 'does not transform the record' do
         transform.transform(local_record)
-        expect(local_record).to eq(local_record)
+        expect(local_record).to eq(local_record) # rubocop:disable RSpec/IdenticalEqualityAssertion
       end
     end
   end

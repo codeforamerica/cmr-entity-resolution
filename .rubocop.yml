@@ -11,3 +11,8 @@ AllCops:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+# Favor more explicit contexts over limited nesting.
+RSpec/NestedGroups:
+  AllowedGroups:
+    - context

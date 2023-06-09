@@ -11,7 +11,6 @@ describe Filter::NonHuman do
 
   describe '#filter' do
     context 'when the name does not match any terms' do
-
       include_examples 'filter', true
     end
 

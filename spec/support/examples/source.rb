@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'source' do |result|
+RSpec.shared_examples 'source' do
   subject(:source) { described_class.new(source_config) }
 
   let(:rows) do

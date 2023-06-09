@@ -8,7 +8,7 @@ FactoryBot.define do
             RECORD_ID: 'record_id',
             PRIMARY_NAME_FIRST: 'first_name',
             PRIMARY_NAME_LAST: 'last_name'
-      })
+          })
     end
 
     after(:build) do |factory|

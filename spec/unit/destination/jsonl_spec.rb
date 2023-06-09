@@ -3,6 +3,9 @@
 require_relative '../../../lib/destination/jsonl'
 
 describe Destination::JSONL do
+  # Since we're using an actual StringIO object we can't use message spies so
+  # disable this cop.
+  # rubocop:disable RSpec/MessageSpies
   describe '#add_record' do
     subject(:destination) { described_class.new(destination_config) }
 
@@ -35,4 +38,5 @@ describe Destination::JSONL do
       destination.add_record(records[2])
     end
   end
+  # rubocop:enable RSpec/MessageSpies
 end
