@@ -117,6 +117,7 @@ services:
 
   tools:
     build: .
+    platform: linux/amd64
     environment:
       SENZING_ENGINE_CONFIGURATION_JSON: >-
         {
@@ -141,6 +142,7 @@ services:
     depends_on:
       - api
     build: .
+    platform: linux/amd64
     environment:
       SENZING_ENGINE_CONFIGURATION_JSON: >-
         {
@@ -168,6 +170,7 @@ services:
     depends_on:
       - api
     build: .
+    platform: linux/amd64
     environment:
       SENZING_ENGINE_CONFIGURATION_JSON: >-
         {
@@ -189,6 +192,23 @@ services:
       - ${EXPORTER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
       - ./data/export:/etc/cmr/export
 
+  cmr-api:
+    profiles:
+      - cmr-api
+    depends_on:
+      - api
+    build: .
+    platform: linux/amd64
+    environment:
+      CMR_CONFIG_FILE: /etc/cmr/config.yml
+    networks:
+      - senzing
+    ports:
+      - ${CMR_API_PORT:-3000}:3000
+    command: api
+    volumes:
+      - ${CMR_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
+
   webapp-console:
     profiles:
       - webapp
@@ -208,6 +228,7 @@ services:
           }
         }
     image: senzing/entity-search-web-app-console:${SENZING_DOCKER_IMAGE_VERSION_ENTITY_SEARCH_WEB_APP_CONSOLE:-latest}
+    platform: linux/amd64
     networks:
       - senzing
     user: "${SENZING_UID:-1001}:${SENZING_GID:-1001}"
@@ -231,6 +252,7 @@ services:
       SENZING_WEB_SERVER_PORT: 8251
       SENZING_WEB_SERVER_STREAM_CLIENT_URL: wss://api:8250/ws
     image: senzing/entity-search-web-app:${SENZING_DOCKER_IMAGE_VERSION_ENTITY_SEARCH_WEB_APP:-latest}
+    platform: linux/amd64
     networks:
       - senzing
     ports:

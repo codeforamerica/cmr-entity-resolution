@@ -4,6 +4,11 @@ BASE_PATH=$( dirname -- "$0" )
 COMMAND="$1"
 
 case $COMMAND in
+  api)
+    echo "Starting Clear My Record Entity Resolution API..."
+    cd /opt/cmr
+    bundle exec rackup --host 0.0.0.0 --port 3000
+    ;;
   load)
     export CONFIG_FILE="/etc/cmr/config.yml"
     "$BASE_PATH/load.sh"

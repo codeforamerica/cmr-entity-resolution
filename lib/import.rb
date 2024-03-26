@@ -43,7 +43,8 @@ class Import
   # @yield
   # @yieldparam source [Source::Base] A source object for data imports.
   def each_source
-    @sources ||= @config.sources.each do |source|
+    @sources ||= @config.sources.each do |name, source|
+      source[:name] ||= name
       yield Source.from_config(source)
     end
   end
