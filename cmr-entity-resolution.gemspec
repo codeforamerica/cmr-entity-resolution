@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
 
   # Add runtime dependencies.
   s.add_runtime_dependency 'faraday', '~> 2.7'
-  s.add_runtime_dependency 'ibm_db', '~> 5.4'
   s.add_runtime_dependency 'grape', '~> 2.0'
+  # s.add_runtime_dependency 'ibm_db', '~> 5.4'
   s.add_runtime_dependency 'iteraptor', '~> 0.10'
   s.add_runtime_dependency 'mongo', '~> 2.18'
   s.add_runtime_dependency 'rack', '~> 3.0'
