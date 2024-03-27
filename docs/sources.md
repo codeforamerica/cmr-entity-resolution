@@ -35,7 +35,8 @@ The following options are available for this source.
 
 ```yaml
 sources:
-  - type: CSV
+  csv:
+    type: CSV
     path: /home/senzing/import.csv
     field_map:
       party_id: RECORD_ID
@@ -70,7 +71,8 @@ The following options are available for this source.
 
 ```yaml
 sources:
-  - type: Informix
+  informix:
+    type: Informix
     host: localhost
     database: people
     table: people
@@ -86,6 +88,7 @@ sources:
       dr_lic_state: DRIVERS_LICENSE_STATE
       ssn: SSN_NUMBER
 ```
+
 Check out the [Import from Informix][informix-example] to see this in action.
 
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping

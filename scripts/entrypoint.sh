@@ -8,6 +8,7 @@ case $COMMAND in
     echo "Starting Clear My Record Entity Resolution API..."
     cd /opt/cmr
     bundle exec rackup --host 0.0.0.0 --port 3000
+    echo "Clear My Record Entity Resolution API has stopped."
     ;;
   load)
     export CONFIG_FILE="/etc/cmr/config.yml"
