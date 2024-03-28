@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'source/api'
 require_relative 'source/csv'
 require_relative 'source/informix'
 

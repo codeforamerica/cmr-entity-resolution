@@ -32,7 +32,7 @@ module Source
     #
     # @return [String]
     def name
-      @source_config[:name] || self.class.name.split('::').last
+      @source_config[:name] || default_name
     end
 
     private
@@ -53,6 +53,13 @@ module Source
     # @return [Hash]
     def defaults
       { field_map: {} }
+    end
+
+    # Default name for the current source.
+    #
+    # @return [String]
+    def default_name
+      self.class.name.split('::').last
     end
   end
 end

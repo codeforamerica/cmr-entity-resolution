@@ -23,7 +23,7 @@ RSpec.describe Config do
     end
 
     it 'loads expected options' do
-      expect(from_file.sources.first[:type]).to eq('CSV')
+      expect(from_file.sources).to include(:import)
     end
   end
 end

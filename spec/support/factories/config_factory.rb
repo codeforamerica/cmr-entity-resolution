@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :config, class: 'Config' do
-    sources { [{ type: 'CSV' }] }
+    sources { { factory: { type: 'CSV', name: :factory } } }
     destination { { type: 'CSV' } }
     filters { [{ filter: 'NonHuman' }] }
   end

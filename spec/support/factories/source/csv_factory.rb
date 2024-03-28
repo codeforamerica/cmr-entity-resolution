@@ -2,7 +2,9 @@
 
 FactoryBot.define do
   factory :source_csv, class: 'Source::CSV' do
-    initialize_with { new({ field_map: [] }) }
+    name { :factory }
+
+    initialize_with { new({ field_map: [], name:, type: 'CSV' }) }
 
     after(:build) do |factory|
       record = { id: 1, first_name: 'Shredward', last_name: 'Whiskers' }
