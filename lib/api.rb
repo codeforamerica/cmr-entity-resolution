@@ -24,23 +24,19 @@ class API < Grape::API
       # TODO: Load and modify the config once at startup.
       config = Config.from_file(ENV.fetch('CMR_CONFIG_FILE', 'config/config.yml'))
 
-      # TODO: Return a 404 if the source is not found.
-      source = config.sources[params[:source]]
-      if source.nil?
-        status 404
-        return "Source \"#{params[:source]}\" not found."
+      # Override configured sources to be of an API type and include the
+      # payload.
+      config.sources.each_value do |source|
+        source[:type] = 'API::JSON'
+        source[:payload] = params
       end
 
-      # Override configured sources as we only want to use this one.
-      source[:type] = 'API::JSON'
-      source[:payload] = params
-      config.sources = { params[:source] => source }
+      Import.new(config).import_from(params[:source])
 
-      # TODO: Pass the source name here as an optional argument.
-      Import.new(config).import
-
-      # TODO: Return something better. Make it JSONy.
-      'Record imported.'
+      { status: :success }
+    rescue Import::SourceNotFound
+      status 404
+      { status: :error, message: "Source \"#{params[:source]}\" not found." }
     end
   end
 end
