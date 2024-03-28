@@ -16,6 +16,7 @@ describe API::API do
   before do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('CMR_API_KEY', anything).and_return('VALID')
+    allow(ENV).to receive(:fetch).with('CMR_CONFIG_FILE', anything).and_return('config/config.sample.yml')
   end
 
   describe 'GET /health' do
