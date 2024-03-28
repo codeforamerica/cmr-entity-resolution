@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'lib/api'
+require_relative 'lib/api/api'
 
 use Rack::RewindableInput::Middleware
 
-run API
+run API::API

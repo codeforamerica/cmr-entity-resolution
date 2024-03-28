@@ -25,10 +25,11 @@ sources:
       ...
 ```
 
-| Environment Variable | Description                                            | Default             |
-|----------------------|--------------------------------------------------------|---------------------|
-| `CMR_API_PORT`       | Local port to bind the API to. _(Docker compose only)_ | 3000                |
-| `CMR_CONFIG_FILE`    | Path to the configuration file.                        | `config/config.yml` |
+| Environment Variable | Description                                                                        | Default                |
+|----------------------|------------------------------------------------------------------------------------|------------------------|
+| `CMR_API_KEY`        | API key used to authenticate with the API. **This must be changed in production.** | `ThisIsTheDefaultKey!` |
+| `CMR_API_PORT`       | Local port to bind the API to. _(Docker compose only)_                             | `3000`                 |
+| `CMR_CONFIG_FILE`    | Path to the configuration file.                                                    | `config/config.yml`    |
 
 ### Running the API manually
 

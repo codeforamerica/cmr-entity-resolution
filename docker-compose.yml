@@ -200,6 +200,7 @@ services:
     build: .
     platform: linux/amd64
     environment:
+      CMR_API_KEY: ${CMR_API_KEY:-ThisIsTheDefaultKey!}
       CMR_CONFIG_FILE: /etc/cmr/config.yml
     networks:
       - senzing
