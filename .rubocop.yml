@@ -25,3 +25,7 @@ RSpec/SubjectStub:
 
 RSpec/MultipleMemoizedHelpers:
   AllowSubject: true
+
+# Rack::MockResponse does not implement has_http_status?.
+RSpec/Rails/HaveHttpStatus:
+  Enabled: false

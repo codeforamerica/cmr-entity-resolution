@@ -19,8 +19,7 @@ describe Destination::Mongo do
     end
     let(:client) do
       instance_double(Mongo::Client).tap do |client|
-        allow(client).to receive(:use).and_return(client)
-        allow(client).to receive(:[]).and_return(collection)
+        allow(client).to receive_messages(use: client, :[] => collection)
       end
     end
     let(:collection) do
