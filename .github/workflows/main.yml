@@ -10,7 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - run: git fetch origin main --depth=1
       - name: RuboCop Linter
         uses: andrewmcodes/rubocop-linter-action@v3.3.0
         env:
