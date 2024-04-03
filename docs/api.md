@@ -51,7 +51,26 @@ and the API will be started alongside the other services.
 
 ## Endpoints
 
-The API supports the following endpoints.
+All API endpoints will respond with an JSON object. Supported request formats
+include the following:
+
+| Format         | Content-Type       |
+|----------------|--------------------|
+| JSON (default) | `application/json` |
+| CSV            | `text/csv`         |
+
+### GET /health
+
+A basic health endpoint that will return a 200 status code if the API is
+running.
+
+_Note: This endpoint does not require authentication._
+
+Example response:
+
+```json
+{ "status": "ok" }
+```
 
 ### POST /import
 
@@ -59,7 +78,7 @@ Import a single record into the Senzing API. The request must be a JSON object
 with the `source` property set, in addition to any other properties of the
 record.
 
-Example request:
+Example JSON request:
 
 ```json
 {
@@ -69,6 +88,19 @@ Example request:
   "last_name": "Doe",
   "dob": "1980-01-01"
 }
+```
+
+Exampple CSV request:
+
+```csv
+"source","party_id","first_name","last_name","dob"
+"parties","12345","John","Doe","1980-01-01"
+```
+
+Example response:
+
+```json
+{ "status": "success"}
 ```
 
 If the request succeeds, the API will return a 201 status code.

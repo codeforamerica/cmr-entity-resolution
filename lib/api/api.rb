@@ -3,13 +3,18 @@
 require 'grape'
 
 require_relative 'authentication'
+require_relative 'parser/csv'
 require_relative '../config'
 require_relative '../import'
 
 module API
   # Provides a proxy api for entity resolution.
   class API < Grape::API
-    format :json
+    content_type :json, 'application/json'
+    content_type :csv, 'text/csv'
+    parser :csv, Parser::CSV
+
+    default_format :json
 
     helpers Authentication
 

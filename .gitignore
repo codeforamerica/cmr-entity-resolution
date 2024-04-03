@@ -4,6 +4,7 @@
 .vscode
 
 # Ignore custom configs but allow changes to the sample.
+.env
 config/*
 !config/config.sample.yml
 
