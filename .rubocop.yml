@@ -12,7 +12,26 @@ AllCops:
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 
+# Count multi-line hashes and arrays in examples as one line.
+RSpec/ExampleLength:
+  CountAsOne:
+    - array
+    - hash
+
 # Favor more explicit contexts over limited nesting.
 RSpec/NestedGroups:
   AllowedGroups:
     - context
+
+# Allow stubbing methods from the system under test, which is useful for testing
+# simple helper methods.
+# https://thoughtbot.com/blog/don-t-stub-the-system-under-test
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  AllowSubject: true
+
+# Rack::MockResponse does not implement has_http_status?.
+RSpec/Rails/HaveHttpStatus:
+  Enabled: false

@@ -9,7 +9,8 @@ filters:
     inverse: false
 
 sources:
-  - type: CSV
+  import:
+    type: CSV
     path: /home/senzing/import.csv
     field_map:
       party_id: RECORD_ID

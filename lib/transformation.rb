@@ -15,7 +15,7 @@ module Transformation
   # @param transformations [Array<Hash>] Array of transformation configurations.
   # @return [Hash] The resulting record after all transformations have been applied.
   def self.transform(config, record, transformations)
-    result = transformations.any? do |transformation|
+    result = transformations&.any? do |transformation|
       transform_from_config(transformation).transform(record)
     end
 

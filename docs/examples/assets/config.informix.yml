@@ -15,7 +15,7 @@ senzing:
   tls: false
 
 sources:
-  - name: Informix Database
+  informix:
     type: Informix
     host: informix
     database: people

@@ -59,6 +59,13 @@ export EXPORTER_CONFIG_FILE="$(pwd)/config/config.yml"
 docker compose up exporter
 ```
 
+## Using the API
+
+While the importer and exporter tools are great for large operations, you may
+want to add and update records on an ongoing basis. The [API][api] provides an
+endpoint to import individual records.
+
+[api]: api.md
 [destinations]: destinations.md
 [filters]: filters.md
 [rvm]: http://rvm.io/
