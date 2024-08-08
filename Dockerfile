@@ -2,7 +2,7 @@
 # support that as the only option for now.
 FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.10.3} AS configs
 
-FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.2}
+FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.3}
 
 # Required in order to bypass the license prompt.
 ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
