@@ -68,11 +68,13 @@ docker compose up exporter
 ## Checking out the data
 
 When we launched the Mongo containers, that included a container running
-[Mongo Express][mongo-express]. You can connect at http://localhost:8081 to see
-your data in MongoDB.
+[Mongo Express][mongo-express]. You can connect at http://localhost:8081[^1] to
+see your data in MongoDB.
 
 [mongo]: https://www.mongodb.com/
 [mongo-express]: https://github.com/mongo-express/mongo-express
 [readme:import]: ../../README.md#importing--exporting
 [readme:launching]: ../../README.md#launching
 [repo]: https://github.com/codeforamerica/cmr-entity-resolution
+
+[^1]: The default username and password are `admin` and `pass`, respectively.

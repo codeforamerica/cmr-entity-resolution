@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'csv'
-require 'file_exists'
 require 'sequel'
 require_relative 'file'
 

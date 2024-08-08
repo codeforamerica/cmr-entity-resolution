@@ -1,10 +1,13 @@
-FROM senzing/senzingapi-runtime:3.4.1 AS configs
+# The ibm_db driver currently only supports x86_64 architecture, so we'll
+# support that as the only option for now.
+FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.10.3} AS configs
 
-FROM ruby:${RUBY_VERSION:-3.2}
+FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.2}
 
 # Required in order to bypass the license prompt.
 ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
 ENV TERM=xterm
+ENV SENZING_VERSION=${SENZING_VERSION:-3.10.3}
 
 # Update packages and install additional dependencies.
 RUN apt-get update && \
@@ -19,17 +22,13 @@ RUN apt-get update && \
       python3-psycopg2 \
       wget
 
-# The senzing API requires libssl1.1, but it's not available by default.
-RUN wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb && \
-    apt-get install -y ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb && \
-    rm ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb
-
 # Add the senzing repo and install the API.
-RUN wget https://senzing-production-apt.s3.amazonaws.com/senzingrepo_1.0.0-1_amd64.deb && \
-    apt-get install -y ./senzingrepo_1.0.0-1_amd64.deb && \
+# https://senzing.zendesk.com/hc/en-us/articles/115002408867-Quickstart-for-Linux
+RUN wget https://senzing-production-apt.s3.amazonaws.com/senzingrepo_2.0.0-1_all.deb && \
+    apt-get install -y ./senzingrepo_2.0.0-1_all.deb && \
     apt-get update && \
-    apt-get install -y senzingapi && \
-    rm ./senzingrepo_1.0.0-1_amd64.deb
+    apt-get install -y "senzingapi=$SENZING_VERSION*" && \
+    rm ./senzingrepo_2.0.0-1_all.deb
 
 # Clean up.
 RUN apt-get autoremove && apt-get clean

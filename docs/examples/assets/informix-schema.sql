@@ -1,5 +1,3 @@
-DATABASE SYSADMIN;
-
 DROP DATABASE IF EXISTS people;
 CREATE DATABASE people WITH log;
 
@@ -25,7 +23,7 @@ CREATE TABLE people(
     party_code VARCHAR(255) NULL
 );
 
-LOAD FROM "/opt/ibm/config/people.unl" INSERT INTO people(party_id, last_name, first_name,
+LOAD FROM "/opt/ibm/files/people.unl" INSERT INTO people(party_id, last_name, first_name,
     gender, birth_date, dr_lic_num, dr_lic_state, ssn, address_1, address_2,
     city, state_code, zip_code, bus_phone, home_phone, email_address, otn,
     party_code);
