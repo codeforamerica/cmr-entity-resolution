@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COVERAGE: 1
+      # Allow mismatch with the lock file because imb_db can only be installed
+      # on x86_64 systems.
+      BUNDLE_GEMFILE: noop.lock
 
     steps:
       - uses: actions/checkout@v4
@@ -40,9 +43,6 @@ jobs:
     env:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
-      # Allow mismatch with the lock file because imb_db can only be installed
-      # on x86_64 systems.
-      BUNDLE_GEMFILE: noop.lock
 
     steps:
       - uses: actions/checkout@v4
