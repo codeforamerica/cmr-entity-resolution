@@ -42,8 +42,7 @@ jobs:
       IMAGE_NAME: ${{ github.repository }}
       # Allow mismatch with the lock file because imb_db can only be installed
       # on x86_64 systems.
-      BUNDLE_FROZEN: 0
-      BUNDLE_DEPLOYMENT: 0
+      BUNDLE_GEMFILE: noop.lock
 
     steps:
       - uses: actions/checkout@v4
