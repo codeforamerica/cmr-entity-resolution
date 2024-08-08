@@ -23,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COVERAGE: 1
+      # Allow mismatch with the lock file because imb_db can only be installed
+      # on x86_64 systems.
+      BUNDLE_FROZEN: 0
 
     steps:
       - uses: actions/checkout@v4
