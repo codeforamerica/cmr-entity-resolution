@@ -23,16 +23,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       COVERAGE: 1
-      # Allow mismatch with the lock file because imb_db can only be installed
-      # on x86_64 systems.
-      BUNDLE_GEMFILE: noop.lock
 
     steps:
       - uses: actions/checkout@v4
+      # The imb_db can only be installed on x86_64 systems, so it may not
+      # currently be present in the lock file. The setup-ruby action will
+      # fail if this is the case, so we'll remove it.
+      #
+      # This should be removed when the imb_db gem is available for ARM.
+      - name: Remove lock file
+        run: rm -f Gemfile.lock
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
       - name: Run tests
         run: bundle exec rspec
