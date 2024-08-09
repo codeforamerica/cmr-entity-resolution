@@ -1,4 +1,5 @@
 require:
+  - rubocop-factory_bot
   - rubocop-rake
   - rubocop-rspec
 
@@ -31,7 +32,3 @@ RSpec/SubjectStub:
 
 RSpec/MultipleMemoizedHelpers:
   AllowSubject: true
-
-# Rack::MockResponse does not implement has_http_status?.
-RSpecRails/HaveHttpStatus:
-  Enabled: false
