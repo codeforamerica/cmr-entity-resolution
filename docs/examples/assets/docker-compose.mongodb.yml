@@ -1,4 +1,3 @@
-version: '3'
 services:
   mongo:
     image: mongo:${SENZING_DOCKER_IMAGE_VERSION_MONGO:-latest}

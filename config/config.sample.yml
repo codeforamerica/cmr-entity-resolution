@@ -8,6 +8,12 @@ filters:
     value: DEF
     inverse: false
 
+senzing:
+  host: localhost
+  port: 8250
+  data_source: PEOPLE
+  tls: false
+
 sources:
   import:
     type: CSV

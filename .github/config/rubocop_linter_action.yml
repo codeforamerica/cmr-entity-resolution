@@ -13,6 +13,7 @@ check_name: 'RuboCop Results'
 #     - rubocop: 'latest'
 versions:
   - rubocop: 'latest'
+  - rubocop-factory_bot: 'latest'
   - rubocop-rake: 'latest'
   - rubocop-rspec: 'latest'
 

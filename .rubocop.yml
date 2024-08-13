@@ -1,9 +1,11 @@
 require:
+  - rubocop-factory_bot
   - rubocop-rake
   - rubocop-rspec
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.2
   Exclude:
     - bin/**/*
     - exe/**/*
@@ -31,7 +33,3 @@ RSpec/SubjectStub:
 
 RSpec/MultipleMemoizedHelpers:
   AllowSubject: true
-
-# Rack::MockResponse does not implement has_http_status?.
-RSpec/Rails/HaveHttpStatus:
-  Enabled: false
