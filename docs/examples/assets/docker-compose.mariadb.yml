@@ -1,0 +1,27 @@
+services:
+  maraidb:
+    image: mariadb
+    environment:
+      # See https://hub.docker.com/_/mariadb
+      MARIADB_ROOT_PASSWORD: ${INFORMIX_PASSWORD:-password}
+      MARIADB_DATABASE: people
+    networks:
+      - senzing
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - maraidb:/var/lib/mysql
+      - type: bind
+        source: ./docs/examples/assets/mysql-schema.sql
+        target: /docker-entrypoint-initdb.d/schema.sql
+      - type: bind
+        source: ./docs/examples/assets/import.csv
+        target: /docker-entrypoint-initdb.d/import.csv
+
+networks:
+  senzing:
+    name: ${SENZING_DOCKER_NETWORK:-senzing-network}
+
+volumes:
+  maraidb:
