@@ -63,18 +63,18 @@ extra:
 nav:
   - Home: index.md
   - Usage:
-      API: api.md
-      Filters: filters.md
-      Destinations: destinations.md
-      Importing & Exporting: importing-exporting.md
-      Senzing: configuring-senzing.md
-      Sources: sources.md
-      Transformations: transformations.md
+      - API: api.md
+      - Filters: filters.md
+      - Destinations: destinations.md
+      - Importing & Exporting: importing-exporting.md
+      - Senzing: configuring-senzing.md
+      - Sources: sources.md
+      - Transformations: transformations.md
   - Examples:
-      Export to MongoDB: examples/export-to-mongo.md
-      Import from Informix: examples/import-from-informix.md
-      Import from MySQL: examples/import-from-mysql.md
+      - Export to MongoDB: examples/export-to-mongo.md
+      - Import from Informix: examples/import-from-informix.md
+      - Import from MySQL: examples/import-from-mysql.md
   - About:
-      License: license.md
+      - License: license.md
 
 copyright: Produced by Code for America under the MIT license.
