@@ -3,7 +3,7 @@ services:
     image: mariadb
     environment:
       # See https://hub.docker.com/_/mariadb
-      MARIADB_ROOT_PASSWORD: ${INFORMIX_PASSWORD:-password}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-password}
       MARIADB_DATABASE: people
     networks:
       - senzing

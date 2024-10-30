@@ -6,8 +6,9 @@ exporting the resulting data. If you choose to import your own CSV file, ensure
 that you also provide an appropriate configuration file rather than the one
 specified here.
 
-> _Note: All commands listed in this document are run from the root directory of
-> this [repository][repo]._
+> [!NOTE]
+> All commands listed in this document are run from the root directory of this
+> [repository][repo].
 
 ## Launching
 
@@ -45,7 +46,8 @@ Now that we have the system up and running, we can import our data. We'll do so
 by copying the file into the appropriate directory, setting the configuration
 file path, and running the importer.
 
-See [README.md][readme:import] for more information on importing and exporting. 
+See [Importing & Exporting][import-export] for more information on importing
+and exporting. 
 
 ```bash
 cp docs/examples/assets/import.csv data/import/import.csv
@@ -74,6 +76,6 @@ see your data in MongoDB. The default username and password are `admin` and
 
 [mongo]: https://www.mongodb.com/
 [mongo-express]: https://github.com/mongo-express/mongo-express
-[readme:import]: ../../README.md#importing--exporting
-[readme:launching]: ../../README.md#launching
+[import-export]: ../importing-exporting.md
+[readme:launching]: /#launching
 [repo]: https://github.com/codeforamerica/cmr-entity-resolution

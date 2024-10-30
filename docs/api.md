@@ -105,5 +105,5 @@ Example response:
 
 If the request succeeds, the API will return a 201 status code.
 
-[compose]: ../docker-compose.yml
+[compose]: https://github.com/codeforamerica/cmr-entity-resolution/blob/main/docker-compose.yml
 [config]: importing-exporting.md

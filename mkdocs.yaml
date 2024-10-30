@@ -1,0 +1,80 @@
+site_name: CMR Entity Resolution
+repo_url: https://github.com/codeforamerica/cmr-entity-resolution
+edit_uri: blob/main/docs/
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - github-callouts
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+
+theme:
+  name: material
+  icon:
+    logo: material/puzzle
+  palette:
+    scheme: slate
+  features:
+    - content.code.copy
+    - content.code.select
+    - content.action.edit
+    - navigation.path
+    - navigation.top
+    - toc.follow
+    - toc.integrate
+    - search.highlight
+    - search.suggest
+
+extra:
+  generator: false
+  social:
+    - icon: material/web
+      link: https://codeforamerica.org/
+      name: Code for America website
+    - icon: fontawesome/brands/github
+      link: https://github.com/codeforamerica
+      name: Code for America on GitHub
+    - icon: fontawesome/brands/threads
+      link: https://www.twitter.com/codeforamerica
+      name: Code for America on Threads
+    - icon: fontawesome/brands/x-twitter
+      link: https://www.threads.net/@codeforamerica
+      name: Code for America on X (formerly Twitter)
+
+nav:
+  - Home: index.md
+  - Usage:
+      API: api.md
+      Filters: filters.md
+      Destinations: destinations.md
+      Importing & Exporting: importing-exporting.md
+      Senzing: configuring-senzing.md
+      Sources: sources.md
+      Transformations: transformations.md
+  - Examples:
+      Export to MongoDB: examples/export-to-mongo.md
+      Import from Informix: examples/import-from-informix.md
+      Import from MySQL: examples/import-from-mysql.md
+  - About:
+      License: license.md
+
+copyright: Produced by Code for America under the MIT license.
