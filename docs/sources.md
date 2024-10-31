@@ -65,8 +65,8 @@ The following options are available for this source.
 | port     | 9089      | NO       | Port to connect to on the database server.                                    |
 | security | nil       | NO       | Set to "SSL" in order to utilize TLS[^1].                                     |
 | schema   | $username | NO       | Schema that the database is attached to. Defaults to the value of `username`. |
-| table    |           | YES      | Table that contains the records to be imported                                |
-| username |           | YES      | User with access to the database                                              |
+| table    |           | YES      | Table that contains the records to be imported.                               |
+| username |           | YES      | User with access to the database.                                             |
 
 ### Example
 
@@ -94,22 +94,22 @@ Check out the [Import from Informix][informix-example] to see this in action.
 
 ## MySQL
 
-Query an [MySQL] or compatible (such as [MariaDB]) database for records to
+Query a [MySQL] or compatible (such as [MariaDB]) database for records to
 import.
 
 ### Configuration
 
 The following options are available for this source.
 
-| Option   | Default   | Required | Description                                                                   |
-|----------|-----------|----------|-------------------------------------------------------------------------------|
-| database |           | YES      | Database to read from.                                                        |
-| host     |           | YES      | Informix host to connect to.                                                  |
-| password |           | YES      | Password for the database user.                                               |
-| port     | 3306      | NO       | Port to connect to on the database server.                                    |
-| security | nil       | NO       | Set to "SSL" in order to utilize TLS[^1].                                     |
-| table    |           | YES      | Table that contains the records to be imported                                |
-| username |           | YES      | User with access to the database                                              |
+| Option   | Default | Required | Description                                     |
+|----------|---------|----------|-------------------------------------------------|
+| database |         | YES      | Database to read from.                          |
+| host     |         | YES      | Database host to connect to.                    |
+| password |         | YES      | Password for the database user.                 |
+| port     | 3306    | NO       | Port to connect to on the database server.      |
+| security | nil     | NO       | Set to "SSL" in order to utilize TLS[^1].       |
+| table    |         | YES      | Table that contains the records to be imported. |
+| username |         | YES      | User with access to the database.               |
 
 ### Example
 

@@ -4,11 +4,12 @@
 > The MySQL source type can be used for any MySQL compatible database, as shown
 > in this example using MariaDB.
 
-This example demonstrates importing data from a [MySQL][mysql] database.
-Following the steps below will launch a [MariaDB] container locally, and load a
-sample dataset to be imported into Senzing. You can also use your own
-MySQL compatible database, but you must also provide an appropriate
-configuration file rather than the one specified here.
+This example demonstrates importing data from a [MySQL][mysql] database, and
+exporting the results to another table in that same database. Following the
+steps below will launch a [MariaDB] container locally, and load a sample dataset
+to be imported into Senzing. You can also use your own MySQL compatible
+database, but you must also provide an appropriate configuration file rather
+than the one specified here.
 
 > [!NOTE]
 > All commands listed in this document are run from the root directory of this
@@ -62,8 +63,23 @@ Once the importer container exits, your data is now in Senzing!
 
 ## Exporting
 
-To verify that the import succeeded, we can export the results from Senzing
-to a CSV file. Our config file already has this setup.
+With our records imported into Senzing, we can export the resulting entities.
+For this example, we'll export the entities to a new table in the same database.
+
+> [!NOTE]
+> The export process assumes that the table already exists. For this example,
+> we've used the following to create the table:
+> ```sql
+> CREATE TABLE entity_resolution(
+>   person_id VARCHAR(255) NOT NULL,
+>   database VARCHAR(255) NOT NULL,
+>   party_id VARCHAR(255) NOT NULL,
+>   match_score INTEGER NULL,
+>   potential_person_id VARCHAR(255) NULL,
+>   potential_match_score INTEGER NULL,
+>   PRIMARY KEY (person_id, party_id, database)
+> );
+> ```
 
 ```bash
 export EXPORTER_CONFIG_FILE="$(pwd)/docs/examples/assets/config.mysql.yml"

@@ -6,12 +6,13 @@ functionality of this entity resolution system.
 ## Destinations
 
 * [Export to Mongo][export-to-mongo]
+* [Export to MySQL][mysql]
 
 ## Sources
 
 * [Import from Informix][import-from-informix]
-* [Import from MySQL][import-from-mysql]
+* [Import from MySQL][mysql]
 
 [export-to-mongo]: examples/export-to-mongo.md
 [import-from-informix]: examples/import-from-informix.md
-[import-from-mysql]: examples/import-from-mysql.md
+[mysql]: examples/mysql.md

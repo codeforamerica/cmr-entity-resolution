@@ -19,6 +19,7 @@ class Export
       entity = JSON.parse(line, symbolize_names: true)
       entity[:RESOLVED_ENTITY][:RECORDS].each do |record|
         record[:ENTITY_ID] = entity[:RESOLVED_ENTITY][:ENTITY_ID]
+        @config.logger.debug("Exporting record: #{record[:ENTITY_ID]}")
         destination.add_record(process_record(record))
       end
     end

@@ -73,7 +73,7 @@ nav:
   - Examples:
       - Export to MongoDB: examples/export-to-mongo.md
       - Import from Informix: examples/import-from-informix.md
-      - Import from MySQL: examples/import-from-mysql.md
+      - Import & export with MySQL: examples/mysql.md
   - About:
       - License: license.md
 

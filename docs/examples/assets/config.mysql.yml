@@ -23,7 +23,7 @@ sources:
     username: root
     password: password
     field_map:
-      party_id: OTHER_ID_PARTY
+      party_id: RECORD_ID
       last_name: PRIMARY_NAME_LAST
       first_name: PRIMARY_NAME_FIRST
       gender: GENDER
@@ -43,16 +43,12 @@ sources:
       party_code: TYPE
 
 destination:
-  type: CSV
-  path: /etc/cmr/export/export.csv
-  overwrite: true
-  headers:
-    - person_id
-    - database
-    - party_id
-    - match_score
-    - potential_person_id
-    - potential_match_score
+  type: MySQL
+  host: maraidb
+  database: people
+  table: entity_resolution
+  username: root
+  password: password
   field_map:
     ENTITY_ID: person_id
     DATABASE: database

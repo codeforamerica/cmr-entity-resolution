@@ -24,4 +24,14 @@ LOAD DATA LOCAL INFILE "/docker-entrypoint-initdb.d/import.csv"
      INTO TABLE people
      FIELDS TERMINATED BY ','
      LINES TERMINATED BY '\n'
-    IGNORE 1 ROWS;
+     IGNORE 1 ROWS;
+
+CREATE TABLE entity_resolution(
+  person_id VARCHAR(255) NOT NULL,
+  database VARCHAR(255) NOT NULL,
+  party_id VARCHAR(255) NOT NULL,
+  match_score INTEGER NULL,
+  potential_person_id VARCHAR(255) NULL,
+  potential_match_score INTEGER NULL,
+  PRIMARY KEY (person_id, party_id, database)
+);

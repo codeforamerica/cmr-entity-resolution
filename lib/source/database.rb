@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'sequel'
-require_relative 'file'
+require_relative 'base'
 
 module Source
   # Basic database source for data imports. Should be extended by specific
