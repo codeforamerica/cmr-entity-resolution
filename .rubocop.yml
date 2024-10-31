@@ -25,6 +25,11 @@ RSpec/NestedGroups:
   AllowedGroups:
     - context
 
+# Ignore the expected format for MySQL specs.
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/unit/source/mysql_spec.rb
+
 # Allow stubbing methods from the system under test, which is useful for testing
 # simple helper methods.
 # https://thoughtbot.com/blog/don-t-stub-the-system-under-test
