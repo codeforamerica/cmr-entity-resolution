@@ -3,6 +3,7 @@
 require_relative 'source/api'
 require_relative 'source/csv'
 require_relative 'source/informix'
+require_relative 'source/mysql'
 
 # Helper methods for loading sources.
 module Source

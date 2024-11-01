@@ -53,6 +53,6 @@ The following options are available for this filter.
   inverse: false
 ```
 
-[non_human]: ../lib/filter/non_human.yml
+[non_human]: https://github.com/codeforamerica/cmr-entity-resolution/blob/main/lib/filter/non_human.yml
 [source]: sources.md
 [transformations]: transformations.md

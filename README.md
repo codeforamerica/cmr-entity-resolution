@@ -13,15 +13,16 @@ An entity resolution solution for automated record clearance.
 This solution is provided as a [docker compose][docker-compose] file and can be
 launched locally by running the following command:
 
-*Note: If you would like to launch the webapp to search for entities using a web
-interface, you will need to add `-p webapp` to include the `webapp` profile.*
+> [!NOTE]
+> If you would like to launch the webapp to search for entities using a web
+> interface, you will need to add `-p webapp` to include the `webapp` profile.
 
 ```bash
 docker compose up -d
 ```
 
 The configuration uses a persistent volume for the database and message queue
-containers to ensure data is persisted through updates to the image or
+container to ensure data is persisted through updates to the image or
 configuration.
 
 ### Applying changes
@@ -70,7 +71,25 @@ information on how to get data in and out of Senzing.
 See our [collection of examples][examples] to see a demonstration of the system
 in action.
 
+## Documentation
+
+Necessary documentation to operate, use, maintain, and contribute to this
+solution is included in this repository. The majority of these documents are
+written in Markdown and can be rendered directly in GitHub or you favorite IDE.
+However, the documentation as a whole is meant to be converted to a static site
+using [MkDocs].
+
+In order to view the documentation in its intended form locally, you can use the
+included docker container. Simply run the following:
+
+```bash
+docker compose --profile docs up -d
+```
+
+The documentation should then be available at <http://localhost:8000>.
+
 [docker-compose]: https://docs.docker.com/compose/
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
 [examples]: docs/examples.md
+[mkdocs]: https://www.mkdocs.org/
 [import-export]: docs/importing-exporting.md

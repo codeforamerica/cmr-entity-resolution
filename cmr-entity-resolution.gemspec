@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'grape', '~> 2.0'
   s.add_dependency 'iteraptor', '~> 0.10'
   s.add_dependency 'mongo', '~> 2.18'
+  s.add_dependency 'mysql2', '~> 0.5'
   s.add_dependency 'rack', '~> 3.0'
   s.add_dependency 'rackup', '~> 2.1'
   s.add_dependency 'sequel', '~> 5.68'

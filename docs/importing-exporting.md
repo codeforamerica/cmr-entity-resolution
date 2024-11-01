@@ -4,8 +4,9 @@ Data can be imported from a number of [sources] and exported to several
 [destinations]. Before you begin, you will need a configuration file with
 settings for your source, destination, [filters], and [transformations].
 
-> _Note: All commands listed in this document are run from the root directory of
-> this project._
+> [!NOTE]
+> All commands listed in this document are run from the root directory of
+> this project.
  
 ## Using the CLI
 
@@ -36,7 +37,7 @@ correct path of your configuration file to `--config`.
 
 ```bash
 ./bin/exporter export --config config/config.yml
-````
+```
 
 ## Using docker
 

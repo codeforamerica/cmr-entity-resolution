@@ -62,10 +62,11 @@ The following options are available for this source.
 | database |           | YES      | Database to read from.                                                        |
 | host     |           | YES      | Informix host to connect to.                                                  |
 | password |           | YES      | Password for the database user.                                               |
+| port     | 9089      | NO       | Port to connect to on the database server.                                    |
 | security | nil       | NO       | Set to "SSL" in order to utilize TLS[^1].                                     |
 | schema   | $username | NO       | Schema that the database is attached to. Defaults to the value of `username`. |
-| table    |           | YES      | Table that contains the records to be imported                                |
-| username |           | YES      | User with access to the database                                              |
+| table    |           | YES      | Table that contains the records to be imported.                               |
+| username |           | YES      | User with access to the database.                                             |
 
 ### Example
 
@@ -91,10 +92,56 @@ sources:
 
 Check out the [Import from Informix][informix-example] to see this in action.
 
+## MySQL
+
+Query a [MySQL] or compatible (such as [MariaDB]) database for records to
+import.
+
+### Configuration
+
+The following options are available for this source.
+
+| Option   | Default | Required | Description                                     |
+|----------|---------|----------|-------------------------------------------------|
+| database |         | YES      | Database to read from.                          |
+| host     |         | YES      | Database host to connect to.                    |
+| password |         | YES      | Password for the database user.                 |
+| port     | 3306    | NO       | Port to connect to on the database server.      |
+| security | nil     | NO       | Set to "SSL" in order to utilize TLS[^1].       |
+| table    |         | YES      | Table that contains the records to be imported. |
+| username |         | YES      | User with access to the database.               |
+
+### Example
+
+```yaml
+sources:
+  informix:
+    type: MySQL
+    host: localhost
+    database: people
+    table: people
+    username: mysql
+    password: password
+    field_map:
+      party_id: RECORD_ID
+      last_name: PRIMARY_NAME_LAST
+      first_name: PRIMARY_NAME_FIRST
+      gender: GENDER
+      birth_date: DATE_OF_BIRTH
+      dr_lic_num: DRIVERS_LICENSE_NUMBER
+      dr_lic_state: DRIVERS_LICENSE_STATE
+      ssn: SSN_NUMBER
+```
+
+Check out the [Import from MySQL][mysql-example] to see this in action.
+
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
 [filters]: filters.md
 [informix]: https://www.ibm.com/products/informix
 [informix-example]: examples/import-from-informix.md
+[mariadb]: https://mariadb.org/
+[mysql]: https://www.mysql.com/
+[mysql-example]: examples/import-from-mysql.md
 [senzing-config]: configuring-senzing.md
 [transformations]: transformations.md
 [^1]: Transport Layer Security

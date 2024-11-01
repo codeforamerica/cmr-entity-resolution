@@ -2,6 +2,7 @@
 
 require_relative 'destination/csv'
 require_relative 'destination/mongo'
+require_relative 'destination/mysql'
 require_relative 'destination/jsonl'
 
 # Helper methods for loading destinations.

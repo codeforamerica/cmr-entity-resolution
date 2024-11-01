@@ -1,3 +1,31 @@
+x-senzing-options: &senzing-options
+  SENZING_API_SERVER_ALLOWED_ORIGINS: '*'
+  SENZING_API_SERVER_ENABLE_ADMIN: 'true'
+  SENZING_ENGINE_CONFIGURATION_JSON: >-
+    {
+      "PIPELINE": {
+        "CONFIGPATH": "/etc/opt/senzing",
+        "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
+        "RESOURCEPATH": "/opt/senzing/g2/resources",
+        "SUPPORTPATH": "/opt/senzing/data/current"
+      },
+      "SQL": {
+        "BACKEND": "SQL",
+        "CONNECTION": "postgresql://${POSTGRES_USERNAME:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432:G2/"
+      }
+    }
+
+x-service-defaults: &service-defaults
+  build: .
+  depends_on:
+    - api
+  environment:
+    <<: *senzing-options
+  networks:
+    - senzing
+  volumes:
+    - .:/opt/cmr
+
 services:
   rabbitmq:
     profiles:
@@ -89,8 +117,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SENZING_API_SERVER_ALLOWED_ORIGINS: '*'
-      SENZING_API_SERVER_ENABLE_ADMIN: 'true'
+      <<: *senzing-options
       SENZING_ENGINE_CONFIGURATION_JSON: >-
         {
           "PIPELINE": {
@@ -104,7 +131,7 @@ services:
             "CONNECTION": "postgresql://${POSTGRES_USERNAME:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432:G2/"
           }
         }
-    image: senzing/senzing-api-server:${SENZING_DOCKER_IMAGE_VERSION_SENZING_API_SERVER:-latest}
+    image: senzing/senzing-api-server:${SENZING_DOCKER_IMAGE_VERSION_SENZING_API_SERVER:-3.5.15}
     networks:
       - senzing
     ports:
@@ -115,79 +142,26 @@ services:
       - '/tmp'
 
   tools:
-    build: .
-    environment:
-      SENZING_ENGINE_CONFIGURATION_JSON: >-
-        {
-          "PIPELINE": {
-            "CONFIGPATH": "/etc/opt/senzing",
-            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
-            "RESOURCEPATH": "/opt/senzing/g2/resources",
-            "SUPPORTPATH": "/opt/senzing/data/current"
-          },
-          "SQL": {
-            "BACKEND": "SQL",
-            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2"
-          }
-        }
-    networks:
-      - senzing
+    <<: *service-defaults
     command: run
     volumes:
       - ./config:/etc/cmr/config
       - ./data/import:/etc/cmr/import
       - ./data/export:/etc/cmr/export
-      - ./lib:/opt/cmr/lib
 
   importer:
+    <<: *service-defaults
     profiles:
       - load
-    depends_on:
-      - api
-    build: .
-    environment:
-      SENZING_ENGINE_CONFIGURATION_JSON: >-
-        {
-          "PIPELINE": {
-            "CONFIGPATH": "/etc/opt/senzing",
-            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
-            "RESOURCEPATH": "/opt/senzing/g2/resources",
-            "SUPPORTPATH": "/opt/senzing/data/current"
-          },
-          "SQL": {
-            "BACKEND": "SQL",
-            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2"
-          }
-        }
-    networks:
-      - senzing
     command: load
     volumes:
       - ${IMPORTER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
       - ./data/import:/etc/cmr/import
 
   exporter:
+    <<: *service-defaults
     profiles:
       - export
-    depends_on:
-      - api
-    build: .
-    environment:
-      SENZING_ENGINE_CONFIGURATION_JSON: >-
-        {
-          "PIPELINE": {
-            "CONFIGPATH": "/etc/opt/senzing",
-            "LICENSESTRINGBASE64": "${SENZING_LICENSE_BASE64_ENCODED}",
-            "RESOURCEPATH": "/opt/senzing/g2/resources",
-            "SUPPORTPATH": "/opt/senzing/data/current"
-          },
-          "SQL": {
-            "BACKEND": "SQL",
-            "CONNECTION": "postgresql://${POSTGRES_USERNAME:-senzing}:${POSTGRES_PASSWORD:-senzing}@postgres:5432:G2"
-          }
-        }
-    networks:
-      - senzing
     command: export
     volumes:
       - ${EXPORTER_CONFIG_FILE:-./config/config.yml}:/etc/cmr/config.yml
@@ -259,6 +233,16 @@ services:
       - 8257:8257
     read_only: true
     restart: always
+
+  docs:
+    profiles:
+      - docs
+    build:
+      dockerfile: docs.dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/docs
 
 networks:
   senzing:

@@ -7,6 +7,7 @@ PATH
       grape (~> 2.0)
       iteraptor (~> 0.10)
       mongo (~> 2.18)
+      mysql2 (~> 0.5)
       rack (~> 3.0)
       rackup (~> 2.1)
       sequel (~> 5.68)
@@ -78,6 +79,7 @@ GEM
     mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
     mutex_m (0.2.0)
+    mysql2 (0.5.6)
     net-http (0.4.1)
       uri
     parallel (1.26.1)

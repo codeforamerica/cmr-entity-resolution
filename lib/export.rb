@@ -16,16 +16,26 @@ class Export
   # directly via the API.
   def from_file
     File.readlines(@config.destination[:export_file]).each do |line|
-      entity = JSON.parse(line, symbolize_names: true)
-      entity[:RESOLVED_ENTITY][:RECORDS].each do |record|
-        record[:ENTITY_ID] = entity[:RESOLVED_ENTITY][:ENTITY_ID]
-        destination.add_record(process_record(record))
-      end
+      process_entity(JSON.parse(line, symbolize_names: true))
     end
   end
 
   private
 
+  # Process the export of a single entity.
+  #
+  # @param entity [Hash] The entity to export.
+  def process_entity(entity)
+    entity[:RESOLVED_ENTITY][:RECORDS].each do |record|
+      record[:ENTITY_ID] = entity[:RESOLVED_ENTITY][:ENTITY_ID]
+      @config.logger.debug("Exporting record: #{record[:ENTITY_ID]}")
+      destination.add_record(process_record(record))
+    end
+  end
+
+  # Process a single record.
+  #
+  # @param record [Hash] The record to process.
   def process_record(record)
     record = transform(destination, record)
 

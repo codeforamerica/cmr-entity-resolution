@@ -2,8 +2,8 @@
 
 require_relative 'database'
 
-module Source
-  # Informix source for data imports.
+module Destination
+  # Informix destination for data exports.
   class Informix < Database
     private
 
