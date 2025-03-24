@@ -21,7 +21,7 @@ jobs:
         with:
           bundler-cache: true
       - name: RuboCop Linter
-        run: bundle exec rubocop --format pacman --format github
+        run: bundle exec rake rubocop
 
   spec:
     runs-on: ubuntu-latest
