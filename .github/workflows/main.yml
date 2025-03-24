@@ -20,7 +20,7 @@ jobs:
         with:
           bundler-cache: true
       - name: RuboCop Linter
-        run: bundle exec rake rubocop
+        run: bundle exec rubocop --format pacman --format github
 
   spec:
     runs-on: ubuntu-latest
@@ -29,13 +29,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      # The imb_db can only be installed on x86_64 systems, so it may not
-      # currently be present in the lock file. The setup-ruby action will
-      # fail if this is the case, so we'll remove it.
-      #
-      # This should be removed when the imb_db gem is available for ARM.
-      - name: Remove lock file
-        run: rm -f Gemfile.lock
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
