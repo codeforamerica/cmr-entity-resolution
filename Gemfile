@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-# IBM doesn't currently have an ARM database driver, so this dependency can
-# cause an issue on ARM platforms such as Apple Silicon.
-gem 'ibm_db', '~> 5.5' if RUBY_PLATFORM =~ /^x86_64/
-
 group :development do
   gem 'rake', '~> 13.0'
   gem 'rubocop', '~> 1.65'

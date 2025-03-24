@@ -14,13 +14,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
       - run: git fetch origin main --depth=1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: RuboCop Linter
-        uses: andrewmcodes/rubocop-linter-action@v3.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bundle exec rake rubocop
 
   spec:
     runs-on: ubuntu-latest
@@ -29,13 +29,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      # The imb_db can only be installed on x86_64 systems, so it may not
-      # currently be present in the lock file. The setup-ruby action will
-      # fail if this is the case, so we'll remove it.
-      #
-      # This should be removed when the imb_db gem is available for ARM.
-      - name: Remove lock file
-        run: rm -f Gemfile.lock
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
