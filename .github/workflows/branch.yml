@@ -16,10 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: git fetch origin main --depth=1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: RuboCop Linter
-        uses: andrewmcodes/rubocop-linter-action@v3.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bundle exec rubocop
 
   spec:
     runs-on: ubuntu-latest
