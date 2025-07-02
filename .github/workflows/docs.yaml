@@ -1,28 +1,40 @@
-name: Publish Documentation
+name: Deploy documentation
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to.
+        default: docs-dev
+        required: true
+        type: environment
   push:
+    paths:
+      # Only trigger on changes to documentation files.
+      - 'docs/**'
+      - 'mkdocs.yaml'
+      - '.github/workflows/docs.yaml'
+      - '*.md'
     branches:
       - main
+      - docs
 
 permissions:
   contents: read
 
 jobs:
   deploy:
-    name: Deploy Documentation
-    environment: 'docs-dev'
+    name: Deploy Documentation to ${{ inputs.environment || 'docs-dev'}}
+    environment: ${{ inputs.environment || 'docs-dev'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION || 'us-east-1' }}
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
@@ -35,9 +47,14 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - name: Install pip dependencies
-        run: pip install markdown-callouts mkdocs-material pymdown-extensions plantuml_markdown
-      - name: Build documentation
-        run: mkdocs build
-      - name: Push docs to S3
-        run: aws s3 sync ./site "s3://${{ env.BUCKET_NAME || 'dev.docs.cfa.codes' }}/${{ env.PREFIX || 'cmr-entity-resolution' }}"
+      - name: Install python dependencies
+        run: |
+          pip install \
+            mkdocs-material \
+            markdown-callouts \
+            mdx_truly_sane_lists \
+            mkdocs-nav-weight \
+            plantuml_markdown \
+            pymdown-extensions
+      - run: mkdocs build
+      - run: aws s3 sync ./site "s3://${{ env.DOCS_BUCKET || 'docs.dev.services.cfa.codes' }}/${{ env.PREFIX || 'cmr-entity-resolution' }}"
