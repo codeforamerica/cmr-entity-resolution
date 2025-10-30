@@ -4,6 +4,7 @@ PATH
     cmr-entity-resolution (0.1.0)
       csv (~> 3.3)
       faraday (~> 2.7)
+      faraday-retry (~> 2.3)
       grape (~> 2.0)
       ibm_db (~> 5.5)
       iteraptor (~> 0.10)
@@ -139,6 +140,8 @@ GEM
       logger
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
+    faraday-retry (2.3.2)
+      faraday (~> 2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     grape (2.3.0)

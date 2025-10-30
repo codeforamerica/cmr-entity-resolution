@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
+require 'faraday/retry'
 
 # Client for the Senzing API
 class Senzing
@@ -24,6 +25,10 @@ class Senzing
     )
 
     @config.logger.debug("Upserted record #{record[:RECORD_ID]}")
+    true
+  rescue Faraday::Error => e
+    @config.logger.error("Failed to upsert record #{record[:RECORD_ID]}: #{e.message}")
+    false
   end
 
   private
@@ -31,12 +36,30 @@ class Senzing
   # Loads the client used for API requests and proxies calls.
   #
   # @return [Faraday::Connection]
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def client
     @client ||= Faraday.new(url) do |conn|
       conn.request :json
       conn.response :json, parser_options: { symbolize_names: true }
+      conn.response :raise_error
+      conn.request :retry, {
+        max: 2,
+        interval: 0.05,
+        interval_randomness: 0.5,
+        backoff_factor: 2,
+        methods: %i[get put post],
+        retry_block: lambda(env:, options:, retry_count:, exception:, will_retry_in:) do
+          request = JSON.parse(env.request_body, symbolize_names: true)
+          @config.logger.warn("Retrying import of record #{request[:RECORD_ID]}")
+        end,
+        exhausted_retries_block: lambda(env:, options:, exception:) do
+          request = JSON.parse(env.request_body, symbolize_names: true)
+          @config.logger.error("Failed to import record #{request[:RECORD_ID]} after max retries")
+        end
+      }
     end
   end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   # Constructs the host URL based on the configuration options.
   #

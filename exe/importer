@@ -13,9 +13,9 @@ class Importer < Thor
     config = Config.from_file(options[:config])
     import = Import.new(config)
 
-    import.import
+    success = import.import
 
-    say_status('success', 'Import complete!')
+    success ? say_status('success', 'Import complete!') : say_status('error', 'Import encountered errors.', :red)
   end
 end
 
