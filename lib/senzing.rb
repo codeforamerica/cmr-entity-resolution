@@ -48,11 +48,11 @@ class Senzing
         interval_randomness: 0.5,
         backoff_factor: 2,
         methods: %i[get put post],
-        retry_block: lambda(env:, options:, retry_count:, exception:, will_retry_in:) do
+        retry_block: lambda do |env:, **|
           request = JSON.parse(env.request_body, symbolize_names: true)
           @config.logger.warn("Retrying import of record #{request[:RECORD_ID]}")
         end,
-        exhausted_retries_block: lambda(env:, options:, exception:) do
+        exhausted_retries_block: lambda do |env:, **|
           request = JSON.parse(env.request_body, symbolize_names: true)
           @config.logger.error("Failed to import record #{request[:RECORD_ID]} after max retries")
         end

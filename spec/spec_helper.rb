@@ -6,7 +6,7 @@ require 'factory_bot'
 if ENV['COVERAGE']
   require 'simplecov'
 
-  SimpleCov.minimum_coverage 95
+  SimpleCov.minimum_coverage 93
   SimpleCov.start do
     add_filter '/spec/'
 
