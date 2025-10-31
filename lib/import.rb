@@ -20,23 +20,29 @@ class Import
   end
 
   # Import records from all configured sources into Senzing.
+  #
+  # @return boolean Whether all records were imported successfully.
   def import
-    sources.each_key { |name| import_from(name) }
+    sources.map { |name, _| import_from(name) }.all?(true)
   end
 
   # Import records from a single source into Senzing.
   #
   # @param source_name [String|Symbol] The name of the source to import from.
+  # @return boolean Whether all records were imported successfully.
   def import_from(source_name)
     raise SourceNotFound, "#{source_name} not found" unless @config.sources.key?(source_name)
 
+    success = true
     source = sources[source_name]
     @config.logger.info("Importing data from #{source.name}")
     source.each do |record|
       next unless filter(record)
 
-      senzing.upsert_record(transform(source, record))
+      success &&= senzing.upsert_record(transform(source, record))
     end
+
+    success
   end
 
   private

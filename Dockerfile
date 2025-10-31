@@ -1,8 +1,6 @@
 # The ibm_db driver currently only supports x86_64 architecture, so we'll
 # support that as the only option for now.
-FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.12.0} AS configs
-
-FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.3}
+FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.12.0} as configs
 
 # Required in order to bypass the license prompt.
 ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
@@ -33,8 +31,10 @@ RUN wget https://senzing-production-apt.s3.amazonaws.com/senzingrepo_2.0.0-1_all
 # Clean up.
 RUN apt-get autoremove && apt-get clean
 
+FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.3}
+
 # Copy the configurations from the senzingapi-runtime image.
-COPY --from=configs /etc/opt/senzing /etc/opt/senzing
+COPY --from=configs /opt/senzing /opt/senzing
 
 # Install the cli tooling.
 COPY . /opt/cmr

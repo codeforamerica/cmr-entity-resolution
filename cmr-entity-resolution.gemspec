@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   # Add runtime dependencies.
   s.add_dependency 'csv', '~> 3.3'
   s.add_dependency 'faraday', '~> 2.7'
+  s.add_dependency 'faraday-retry', '~> 2.3'
   s.add_dependency 'grape', '~> 2.0'
   s.add_dependency 'ibm_db', '~> 5.5'
   s.add_dependency 'iteraptor', '~> 0.10'
