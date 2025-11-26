@@ -40,4 +40,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'sequel', '~> 5.68'
   s.add_dependency 'thor', '~> 1.2'
   s.add_dependency 'yajl-ruby', '~> 1.4'
+  s.add_dependency 'concurrent-ruby', '~> 1.3'
 end
