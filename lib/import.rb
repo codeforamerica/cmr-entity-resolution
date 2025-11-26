@@ -69,7 +69,7 @@ class Import
   end
 
   def create_thread_pool
-    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 5
+    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 4
     Concurrent::ThreadPoolExecutor.new(
       min_threads: threads,
       max_threads: threads,
