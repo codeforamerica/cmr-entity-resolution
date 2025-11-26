@@ -92,4 +92,47 @@ RSpec.describe Import do
       let(:object) { senzing }
     end
   end
+
+  describe '#import_from (concurrency)' do
+    before do
+      allow(Source::CSV).to receive(:new).with(hash_including(name: :factory)).and_return(sources[:factory])
+      allow(Source::CSV).to receive(:new).with(hash_including(name: :test)).and_return(sources[:test])
+
+      allow(Senzing).to receive(:new).and_return(senzing)
+
+      allow(Filter).to receive(:filter).and_return(true)
+      allow(Transformation).to receive(:transform).and_return(record)
+    end
+
+    context 'when processing records' do
+      it 'returns true when all records succeed' do
+        allow(senzing).to receive(:upsert_record).and_return(true)
+
+        expect(import.import_from(:factory)).to be(true)
+      end
+
+      it 'returns false if any record fails' do
+        allow(senzing).to receive(:upsert_record).and_return(false)
+
+        expect(import.import_from(:factory)).to be(false)
+      end
+
+      it 'handles thread exceptions' do
+        allow(senzing).to receive(:upsert_record).and_raise(StandardError, 'API Error')
+        allow(config.logger).to receive(:error)
+
+        import.import_from(:factory)
+        expect(config.logger).to have_received(:error).with(/Failed to upsert record/)
+      end
+    end
+
+    it 'configures the thread pool correctly' do
+      allow(Concurrent::ThreadPoolExecutor).to receive(:new).and_call_original
+      allow(senzing).to receive(:upsert_record).and_return(true)
+
+      import.import_from(:factory)
+
+      expect(Concurrent::ThreadPoolExecutor).to have_received(:new).with(hash_including(fallback_policy: :caller_runs))
+    end
+  end
 end

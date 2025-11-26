@@ -26,4 +26,18 @@ RSpec.describe Config do
       expect(from_file.sources).to include(:import)
     end
   end
+
+  describe '#defaults' do
+    describe 'concurrency' do
+      it 'defaults to 4' do
+        expect(described_class.new.concurrency).to eq(4)
+      end
+
+      it 'uses IMPORT_CONCURRENCY env variable' do
+        allow(ENV).to receive(:fetch).with('IMPORT_CONCURRENCY', anything).and_return(16)
+
+        expect(described_class.new.concurrency).to eq(16)
+      end
+    end
+  end
 end
