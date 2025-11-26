@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.2'
 
   # Add runtime dependencies.
+  s.add_dependency 'concurrent-ruby', '~> 1.3'
   s.add_dependency 'csv', '~> 3.3'
   s.add_dependency 'faraday', '~> 2.7'
   s.add_dependency 'faraday-retry', '~> 2.3'
@@ -40,5 +41,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'sequel', '~> 5.68'
   s.add_dependency 'thor', '~> 1.2'
   s.add_dependency 'yajl-ruby', '~> 1.4'
-  s.add_dependency 'concurrent-ruby', '~> 1.3'
 end
