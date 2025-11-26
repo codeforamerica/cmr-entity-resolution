@@ -34,7 +34,7 @@ RSpec.describe Config do
       end
 
       it 'uses IMPORT_CONCURRENCY env variable' do
-        allow(ENV).to receive(:fetch).with('IMPORT_CONCURRENCY', anything).and_return(16)
+        allow(ENV).to receive(:fetch).with('IMPORT_CONCURRENCY', anything).and_return('16')
 
         expect(described_class.new.concurrency).to eq(16)
       end
