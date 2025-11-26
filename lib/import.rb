@@ -34,23 +34,13 @@ class Import
   def import_from(source_name)
     raise SourceNotFound, "#{source_name} not found" unless @config.sources.key?(source_name)
 
-    source = sources[source_name]
-    @config.logger.info("Importing data from #{source.name} with #{@config.concurrency} threads")
-
     success = Concurrent::AtomicBoolean.new(true)
     pool = create_thread_pool
 
-    source.each do |record|
-      next unless filter(record)
-
-      transformed = transform(source, record)
-      pool.post do
-        process_record(transformed, success)
-      end
-    end
+    enqueue_source_records(sources[source_name], pool, success)
 
     pool.shutdown
-    pool.wait_for_termination(60) # timeout after 60 seconds
+    pool.wait_for_termination(60)
     success.value
   ensure
     pool&.kill if pool && !pool.shutdown?
@@ -58,22 +48,33 @@ class Import
 
   private
 
-  # Process a single record with error handling, catches exceptions
+  def enqueue_source_records(source, pool, success)
+    @config.logger.info("Importing data from #{source.name} with #{@config.concurrency} threads")
+    sleep 3
+
+    source.each do |record|
+      next unless filter(record)
+
+      transformed = transform(source, record)
+      pool.post { process_record(transformed, success) }
+    end
+  end
+
   def process_record(record, success)
     result = senzing.upsert_record(record)
     success.make_false unless result
   rescue StandardError => e
-    @config.logger.error("Failed to upsert record: #{e.message}") # log error
+    @config.logger.error("Failed to upsert record: #{e.class}: #{e.message}")
     success.make_false
   end
 
-  # Creates a new thread pool for each import_from call
   def create_thread_pool
+    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 5
     Concurrent::ThreadPoolExecutor.new(
-      min_threads: @config.concurrency,
-      max_threads: @config.concurrency,
-      max_queue: @config.concurrency * 2,  # backpressure, bounded queue (2x threads) 
-      fallback_policy: :caller_runs        
+      min_threads: threads,
+      max_threads: threads,
+      max_queue: threads * 2,
+      fallback_policy: :caller_runs
     )
   end
 
@@ -98,21 +99,6 @@ class Import
       yield loaded if block_given?
 
       [name, loaded]
-    end
-  end
-
-  def create_thread_pool
-    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 5
-    Concurrent::FixedThreadPool.new(threads)
-  end
-
-  def process_record(record, success)
-    begin
-      ok = senzing.upsert_record(record)
-      success.make_false unless ok
-    rescue => e
-      @config.logger.error("Error importing record: #{e.class}: #{e.message}")
-      success.make_false
     end
   end
 end
