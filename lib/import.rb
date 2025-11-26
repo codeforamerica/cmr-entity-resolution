@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'concurrent'
 require_relative 'filterable'
 require_relative 'senzing'
 require_relative 'source'
@@ -33,19 +34,48 @@ class Import
   def import_from(source_name)
     raise SourceNotFound, "#{source_name} not found" unless @config.sources.key?(source_name)
 
-    success = true
     source = sources[source_name]
-    @config.logger.info("Importing data from #{source.name}")
+    @config.logger.info("Importing data from #{source.name} with #{@config.concurrency} threads")
+
+    success = Concurrent::AtomicBoolean.new(true)
+    pool = create_thread_pool
+
     source.each do |record|
       next unless filter(record)
 
-      success &&= senzing.upsert_record(transform(source, record))
+      transformed = transform(source, record)
+      pool.post do
+        process_record(transformed, success)
+      end
     end
 
-    success
+    pool.shutdown
+    pool.wait_for_termination(60) # timeout after 60 seconds
+    success.value
+  ensure
+    pool&.kill if pool && !pool.shutdown?
   end
 
   private
+
+  # Process a single record with error handling, catches exceptions
+  def process_record(record, success)
+    result = senzing.upsert_record(record)
+    success.make_false unless result
+  rescue StandardError => e
+    @config.logger.error("Failed to upsert record: #{e.message}") # log error
+    success.make_false
+  end
+
+  # Creates a new thread pool for each import_from call
+  def create_thread_pool
+    Concurrent::ThreadPoolExecutor.new(
+      min_threads: @config.concurrency,
+      max_threads: @config.concurrency,
+      max_queue: @config.concurrency * 2,  # backpressure, bounded queue (2x threads) 
+      fallback_policy: :caller_runs        
+    )
+  end
 
   # Loads the Senzing client and proxies calls.
   #
@@ -68,6 +98,21 @@ class Import
       yield loaded if block_given?
 
       [name, loaded]
+    end
+  end
+
+  def create_thread_pool
+    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 5
+    Concurrent::FixedThreadPool.new(threads)
+  end
+
+  def process_record(record, success)
+    begin
+      ok = senzing.upsert_record(record)
+      success.make_false unless ok
+    rescue => e
+      @config.logger.error("Error importing record: #{e.class}: #{e.message}")
+      success.make_false
     end
   end
 end
