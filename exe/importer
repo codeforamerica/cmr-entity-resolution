@@ -16,7 +16,6 @@ class Importer < Thor
   def import
     config = Config.from_file(options[:config])
     config.concurrency = options[:concurrency] if options[:concurrency] # overide concurrency if provided
-    
     import = Import.new(config)
     success = import.import
 
