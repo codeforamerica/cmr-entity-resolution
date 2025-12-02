@@ -9,10 +9,14 @@ class Importer < Thor
   desc 'import', 'Import data from a configured source into Senzing'
   option :config, desc: 'Path to the configuration file for this data set',
                  default: File.expand_path(File.join(__dir__, '../config/config.yml'))
+  option :concurrency, desc: 'Number of concurrent threads for import',
+                    type: :numeric,
+                    default: nil
+
   def import
     config = Config.from_file(options[:config])
+    config.concurrency = options[:concurrency] if options[:concurrency] # override concurrency if provided
     import = Import.new(config)
-
     success = import.import
 
     success ? say_status('success', 'Import complete!') : say_status('error', 'Import encountered errors.', :red)

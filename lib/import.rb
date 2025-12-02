@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'concurrent'
 require_relative 'filterable'
 require_relative 'senzing'
 require_relative 'source'
@@ -33,19 +34,49 @@ class Import
   def import_from(source_name)
     raise SourceNotFound, "#{source_name} not found" unless @config.sources.key?(source_name)
 
-    success = true
-    source = sources[source_name]
-    @config.logger.info("Importing data from #{source.name}")
-    source.each do |record|
-      next unless filter(record)
+    success = Concurrent::AtomicBoolean.new(true)
+    pool = create_thread_pool
 
-      success &&= senzing.upsert_record(transform(source, record))
-    end
+    enqueue_source_records(sources[source_name], pool, success)
 
-    success
+    pool.shutdown
+    pool.wait_for_termination(60)
+    success.value
+  ensure
+    pool&.kill if pool && !pool.shutdown?
   end
 
   private
+
+  def enqueue_source_records(source, pool, success)
+    @config.logger.info("Importing data from #{source.name} with #{@config.concurrency} threads")
+    sleep 3
+
+    source.each do |record|
+      next unless filter(record)
+
+      transformed = transform(source, record)
+      pool.post { process_record(transformed, success) }
+    end
+  end
+
+  def process_record(record, success)
+    result = senzing.upsert_record(record)
+    success.make_false unless result
+  rescue StandardError => e
+    @config.logger.error("Failed to upsert record: #{e.class}: #{e.message}")
+    success.make_false
+  end
+
+  def create_thread_pool
+    threads = (@config.respond_to?(:concurrency) && @config.concurrency) || 4
+    Concurrent::ThreadPoolExecutor.new(
+      min_threads: threads,
+      max_threads: threads,
+      max_queue: threads * 2,
+      fallback_policy: :caller_runs
+    )
+  end
 
   # Loads the Senzing client and proxies calls.
   #

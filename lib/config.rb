@@ -24,7 +24,7 @@ class Config
     end
   end
 
-  attr_accessor :destination, :field_map, :filters, :log_level, :logger,
+  attr_accessor :concurrency, :destination, :field_map, :filters, :log_level, :logger,
                 :match_level, :match_score, :senzing, :sources, :transformations
 
   def initialize
@@ -37,6 +37,7 @@ class Config
 
   # Set default configuration values.
   def defaults
+    @concurrency = ENV.fetch('IMPORT_CONCURRENCY', 4).to_i
     @destination = {}
     @field_map = []
     @filters = []

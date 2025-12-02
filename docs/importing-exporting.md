@@ -33,6 +33,14 @@ correct path of your configuration file to `--config`.
 ./bin/importer import --config config/config.yml
 ```
 
+#### Concurrency
+The importer processes records concurrently. You can control the number of threads:
+  - **CLI flag**: `--concurrency 8`
+  - **Environment variable**: `IMPORT_CONCURRENCY=8`
+  - **config.yml**: add top-level value such as `concurrency: 8`
+
+By default, the importer is configured for 4 threads.
+
 ### Exporter
 
 ```bash
