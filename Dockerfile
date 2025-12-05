@@ -33,8 +33,29 @@ RUN apt-get autoremove && apt-get clean
 
 FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.3}
 
-# Copy the configurations from the senzingapi-runtime image.
+# Install runtime libraries required by Senzing
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      libsqlite3-0 \
+      libpq5 \
+      libxml2 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Senzing requires libssl1.1, which is not available on Debian 12+ (using OpenSSL 3.x)
+# only install if not already present (Debian 11 includes by default)
+RUN if ! dpkg -s libssl1.1 > /dev/null 2>&1; then \
+      wget -q http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
+      dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb && \
+      rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb; \
+    fi
+
+# Copy the Senzing installation from Stage 1.
 COPY --from=configs /opt/senzing /opt/senzing
+
+# Create config directory from templates
+RUN mkdir -p /etc/opt/senzing && \
+    cp -R /opt/senzing/g2/resources/templates/* /etc/opt/senzing/
 
 # Install the cli tooling.
 COPY . /opt/cmr
