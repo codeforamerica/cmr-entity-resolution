@@ -28,8 +28,10 @@ RUN wget https://senzing-production-apt.s3.amazonaws.com/senzingrepo_2.0.0-1_all
     apt-get install -y "senzingapi=$SENZING_VERSION*" && \
     rm ./senzingrepo_2.0.0-1_all.deb
 
+
 # Clean up.
 RUN apt-get autoremove && apt-get clean
+
 
 FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-3.3}
 
@@ -52,6 +54,9 @@ RUN if ! dpkg -s libssl1.1 > /dev/null 2>&1; then \
 
 # Copy the Senzing installation from Stage 1.
 COPY --from=configs /opt/senzing /opt/senzing
+
+# force current to point local 5.0.0 data folder
+RUN ln -sf /opt/senzing/data/[0-9]* /opt/senzing/data/current
 
 # Create config directory from templates
 RUN mkdir -p /etc/opt/senzing && \
