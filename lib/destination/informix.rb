@@ -16,13 +16,8 @@ module Destination
     def add_record(record)
       table = db[@destination_config.fetch(:table).to_sym]
       record = record.transform_keys(&:to_sym)
-
       key_values = record.slice(*key_columns)
-      missing_keys = key_columns - key_values.keys
-      raise ArgumentError, "Record is missing key columns: #{missing_keys.join(', ')}" unless missing_keys.empty?
-
-      blank_keys = key_values.select { |_column, value| value.nil? || value.to_s.strip.empty? }.keys
-      raise ArgumentError, "Record has blank key columns: #{blank_keys.join(', ')}" unless blank_keys.empty?
+      validate_key_values!(key_values)
 
       db.transaction do
         table.insert(record) if table.where(key_values).update(record).zero?
@@ -30,6 +25,16 @@ module Destination
     end
 
     private
+
+    # @raise [ArgumentError] When `key_values` is missing any key column, or
+    #   has a blank value for one.
+    def validate_key_values!(key_values)
+      missing_keys = key_columns - key_values.keys
+      raise ArgumentError, "Record is missing key columns: #{missing_keys.join(', ')}" unless missing_keys.empty?
+
+      blank_keys = key_values.select { |_column, value| value.nil? || value.to_s.strip.empty? }.keys
+      raise ArgumentError, "Record has blank key columns: #{blank_keys.join(', ')}" unless blank_keys.empty?
+    end
 
     def defaults
       super.merge({ adapter: :ibmdb, port: 9089, security: nil })
