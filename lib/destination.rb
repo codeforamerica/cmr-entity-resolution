@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require_relative 'destination/csv'
+require_relative 'destination/informix'
+require_relative 'destination/jsonl'
 require_relative 'destination/mongo'
 require_relative 'destination/mysql'
-require_relative 'destination/jsonl'
 
 # Helper methods for loading destinations.
 module Destination
