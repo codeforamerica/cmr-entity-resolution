@@ -124,12 +124,15 @@ Check out the [Export to Mongo][mongo-example] to see this in action.
 
 Insert entities into a [MySQL] or compatible (such as [MariaDB]) database.
 
+Records are written with `REPLACE INTO`, relying on the table's own primary
+or unique key to detect existing rows.
+
 ### Configuration
 
-The following options are available for this source.
+The following options are available for this destination.
 
 | Option   | Default   | Required | Description                                |
-|----------|-----------|----------|--------------------------------------------|
+|----------|-----------|----------|---------------------------------------------|
 | database |           | YES      | Database to write to.                      |
 | host     |           | YES      | Database host to connect to.               |
 | password |           | YES      | Password for the database user.            |
@@ -141,31 +144,82 @@ The following options are available for this source.
 ### Example
 
 ```yaml
-sources:
-  informix:
-    type: MySQL
-    host: localhost
-    database: people
-    table: entity_resolution
-    username: mysql
-    password: password
-    field_map:
-      ENTITY_ID: person_id
-      DATABASE: database
-      PARTY_ID: party_id
-      MATCH_SCORE: match_score
-      RELATED_RECORD_ID: potential_person_id
-      RELATED_MATCH_SCORE: potential_match_score
-    export_file: /etc/cmr/export/export.json
+destination:
+  type: MySQL
+  host: localhost
+  database: people
+  table: entity_resolution
+  username: mysql
+  password: password
+  field_map:
+    ENTITY_ID: person_id
+    DATABASE: database
+    PARTY_ID: party_id
+    MATCH_SCORE: match_score
+    RELATED_RECORD_ID: potential_person_id
+    RELATED_MATCH_SCORE: potential_match_score
+  export_file: /etc/cmr/export/export.json
 ```
 
 Check out the [Import from MySQL][mysql-example] to see this in action.
 
+## Informix
+
+Insert entities into an [IBM Informix][informix] database.
+
+Unlike MySQL, Informix has no `REPLACE INTO` equivalent, so `unique_key` is
+**required** for this destination: it's the only way records can be upserted
+instead of duplicated on every export.
+
+### Configuration
+
+The following options are available for this destination.
+
+| Option     | Default | Required | Description                                                                    |
+|------------|---------|----------|---------------------------------------------------------------------------------|
+| database   |         | YES      | Database to write to.                                                          |
+| host       |         | YES      | Database host to connect to.                                                  |
+| password   |         | YES      | Password for the database user.                                               |
+| port       | 9089    | NO       | Port to connect to on the database server.                                    |
+| table      |         | YES      | Table to write entities to.                                                    |
+| unique_key |         | YES      | Destination column name(s) (from `field_map`) that uniquely identify a record. |
+| username   |         | YES      | User with access to the database.                                             |
+
+### Example
+
+```yaml
+destination:
+  type: Informix
+  host: informix
+  database: people
+  table: party
+  username: informix
+  password: password
+  unique_key:
+    - srcdb
+    - party_num
+  field_map:
+    DATABASE: srcdb
+    PARTY_ID: party_num
+    PRIMARY_NAME_LAST: last_name
+    PRIMARY_NAME_FIRST: first_name
+  transformations:
+    - transform: SplitValue
+      field: RECORD_ID
+      delimiter: "-"
+      parts:
+        0: DATABASE
+        1: PARTY_ID
+  export_file: /etc/cmr/export/export.json
+```
+
+[informix]: https://www.ibm.com/products/informix
 [jsonl]: https://jsonlines.org/
 [mariadb]: https://mariadb.org/
 [mongo]: https://www.mongodb.com/
 [mongo-example]: examples/export-to-mongo.md
 [mysql]: https://www.mysql.com/
+[mysql-example]: examples/mysql.md
 [transformations]: transformations.md
 [^1]: Use of an export file is temporary until records can be exported directly
 using the API.
