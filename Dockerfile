@@ -7,6 +7,12 @@ ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
 ENV TERM=xterm
 ENV SENZING_VERSION=${SENZING_VERSION:-3.13.0}
 
+# The senzingapi-runtime base image is built on Debian 11 (bullseye), which is
+# EOL. Its bullseye-security repo no longer publishes fresh InRelease metadata,
+# so the signed Release file's Valid-Until eventually lands in the past and
+# apt-get update fails with exit code 100. Tell apt not to treat that as fatal.
+RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+
 # Update packages and install additional dependencies.
 RUN apt-get update && \
     apt-get upgrade -y && \
