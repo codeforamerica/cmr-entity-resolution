@@ -41,6 +41,26 @@ The importer processes records concurrently. You can control the number of threa
 
 By default, the importer is configured for 4 threads.
 
+#### Re-importing from scratch
+If your source data changes or if you need to replace the source in your config,
+it is usually a good practice to start the import process from scratch to ensure
+validity of the results. This clears out the existing Senzing database so
+previously imported records don't linger or conflict with the new data. Run
+this series of commands prior to running the importer to re-import from
+scratch:
+
+```bash
+docker compose down --volumes
+docker compose up -d
+```
+
+*Note: `down --volumes` removes the persistent database, so any previously
+imported data will be lost. `up -d` recreates the environment, including
+re-initializing the Senzing database via `init-postgres`.*
+
+Once the environment is back up, run the importer as described above (or, if
+you prefer, using [docker](#using-docker) instead of the CLI).
+
 ### Exporter
 
 ```bash
