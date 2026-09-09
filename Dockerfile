@@ -1,11 +1,11 @@
 # The ibm_db driver currently only supports x86_64 architecture, so we'll
 # support that as the only option for now.
-FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.13.2} as configs
+FROM --platform=linux/amd64 senzing/senzingapi-runtime:${SENZING_VERSION:-3.13.0} as configs
 
 # Required in order to bypass the license prompt.
 ENV SENZING_ACCEPT_EULA="I_ACCEPT_THE_SENZING_EULA"
 ENV TERM=xterm
-ENV SENZING_VERSION=${SENZING_VERSION:-3.13.2}
+ENV SENZING_VERSION=${SENZING_VERSION:-3.13.0}
 
 # Update packages and install additional dependencies.
 RUN apt-get update && \
