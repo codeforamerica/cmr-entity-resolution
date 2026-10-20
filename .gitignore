@@ -13,6 +13,11 @@ config/*
 bin
 vendor
 
+# Ignore Python environment and documentation build outputs.
+.venv
+.cache
+site
+
 # Ignore import and export files.
 ./*.csv
 ./*.json
