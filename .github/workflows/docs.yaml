@@ -5,14 +5,16 @@ on:
     inputs:
       environment:
         description: Environment to deploy to.
-        default: docs-dev
+        default: development
         required: true
         type: environment
   push:
     paths:
       # Only trigger on changes to documentation files.
       - 'docs/**'
-      - 'mkdocs.yaml'
+      - 'zensical.toml'
+      - 'pyproject.toml'
+      - 'uv.lock'
       - '.github/workflows/docs.yaml'
       - '*.md'
     branches:
@@ -20,40 +22,18 @@ on:
 
 permissions:
   contents: read
+  id-token: write
+
+run-name: Deploy documentation to ${{ inputs.environment || 'development' }}
 
 jobs:
+  build:
+    uses: codeforamerica/github-actions/.github/workflows/zensical-build.yaml@main
+
   deploy:
-    name: Deploy Documentation to ${{ inputs.environment || 'docs-dev'}}
-    environment: ${{ inputs.environment || 'docs-dev'}}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION || 'us-east-1' }}
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - name: Install package dependencies
-        run: sudo apt-get install -y plantuml
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v4
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
-      - name: Install python dependencies
-        run: |
-          pip install \
-            mkdocs-material \
-            markdown-callouts \
-            mdx_truly_sane_lists \
-            mkdocs-nav-weight \
-            plantuml_markdown \
-            pymdown-extensions
-      - run: mkdocs build
-      - run: aws s3 sync ./site "s3://${{ env.DOCS_BUCKET || 'docs.dev.services.cfa.codes' }}/${{ env.PREFIX || 'cmr-entity-resolution' }}"
+    needs: build
+    uses: codeforamerica/github-actions/.github/workflows/shared-services-documentation-deploy.yaml@main
+    with:
+      artifact-ids: ${{ needs.build.outputs.artifact-id }}
+      environment: ${{ inputs.environment || 'development' }}
+    secrets: inherit
