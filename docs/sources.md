@@ -141,7 +141,7 @@ Check out the [Import from MySQL][mysql-example] to see this in action.
 [informix-example]: examples/import-from-informix.md
 [mariadb]: https://mariadb.org/
 [mysql]: https://www.mysql.com/
-[mysql-example]: examples/import-from-mysql.md
+[mysql-example]: examples/mysql.md
 [senzing-config]: configuring-senzing.md
 [transformations]: transformations.md
 [^1]: Transport Layer Security

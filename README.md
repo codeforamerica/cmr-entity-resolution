@@ -77,10 +77,10 @@ Necessary documentation to operate, use, maintain, and contribute to this
 solution is included in this repository. The majority of these documents are
 written in Markdown and can be rendered directly in GitHub or you favorite IDE.
 However, the documentation as a whole is meant to be converted to a static site
-using [MkDocs].
+using [Zensical].
 
-In order to view the documentation in its intended form locally, you can use the
-included docker container. Simply run the following:
+To view the documentation in its rendered form locally, you can use the included
+docker container:
 
 ```bash
 docker compose --profile docs up -d
@@ -91,5 +91,5 @@ The documentation should then be available at <http://localhost:8000>.
 [docker-compose]: https://docs.docker.com/compose/
 [entity-spec]: https://senzing.zendesk.com/hc/en-us/articles/231925448-Generic-Entity-Specification-Data-Mapping
 [examples]: docs/examples.md
-[mkdocs]: https://www.mkdocs.org/
 [import-export]: docs/importing-exporting.md
+[zensical]: https://zensical.org/

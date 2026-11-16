@@ -7,3 +7,6 @@ vendor
 *.csv
 Dockerfile
 docker-compose.yml
+.venv
+.cache
+site
