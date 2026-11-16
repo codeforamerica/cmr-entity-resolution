@@ -11,7 +11,7 @@ describe Transformation::SplitValue do
 
   describe '#transform' do
     context 'when the delimiter is not specified' do
-      include_examples 'transform' do
+      it_behaves_like 'transform' do
         let(:unmatched_record) { record.merge(test_field: 'test-value-suffix') }
       end
     end
@@ -20,7 +20,7 @@ describe Transformation::SplitValue do
       let(:record) { super().merge(test_field: 'test|@|value|@|suffix') }
       let(:transform_config) { super().merge(delimiter: '|@|') }
 
-      include_examples 'transform' do
+      it_behaves_like 'transform' do
         let(:unmatched_config) { transform_config.merge(delimiter: ':') }
       end
     end
@@ -29,7 +29,7 @@ describe Transformation::SplitValue do
       let(:record) { super().merge(test_field: "test\tvalue\tsuffix") }
       let(:transform_config) { super().merge(delimiter: "\t") }
 
-      include_examples 'transform' do
+      it_behaves_like 'transform' do
         let(:unmatched_config) { transform_config.merge(delimiter: "\n") }
       end
     end

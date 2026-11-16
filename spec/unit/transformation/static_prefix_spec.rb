@@ -11,7 +11,7 @@ describe Transformation::StaticPrefix do
 
   describe '#transform' do
     context 'when configured to apply to non-empty fields only' do
-      include_examples 'transform' do
+      it_behaves_like 'transform' do
         let(:unmatched_config) { transform_config.merge(field: 'empty_field') }
       end
     end
@@ -20,7 +20,7 @@ describe Transformation::StaticPrefix do
       let(:transform_config) { super().merge(field: 'empty_field', if_not_empty: false) }
       let(:expected) { record.merge(empty_field: 'RSPEC') }
 
-      include_examples 'transform', unmodified: false
+      it_behaves_like 'transform', unmodified: false
     end
   end
 end

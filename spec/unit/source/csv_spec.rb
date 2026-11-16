@@ -7,7 +7,7 @@ describe Source::CSV do
     let(:source_config) { { parth: '/rspec/test.csv' } }
     let(:headers) { %w[record_id first_name last_name] }
 
-    include_examples 'source' do
+    it_behaves_like 'source' do
       before do
         # Generate a CSV object instead of reading form the file system.
         contents = CSV.generate do |csv|

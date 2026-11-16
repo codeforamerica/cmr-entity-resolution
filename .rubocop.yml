@@ -5,7 +5,7 @@ plugins:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 4.0
   Exclude:
     - bin/**/*
     - exe/**/*
@@ -13,6 +13,16 @@ AllCops:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+# These methods are part of shared interfaces (filters, transformations, and
+# imports) that return whether an action succeeded or should be applied.
+# Renaming them with a `?` would misrepresent that they perform work.
+Naming/PredicateMethod:
+  AllowedMethods:
+    - filter
+    - import
+    - import_from
+    - transform
 
 # Count multi-line hashes and arrays in examples as one line.
 RSpec/ExampleLength:

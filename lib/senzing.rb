@@ -36,7 +36,7 @@ class Senzing
   # Loads the client used for API requests and proxies calls.
   #
   # @return [Faraday::Connection]
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:disable-next Metrics/MethodLength, Metrics/AbcSize
   def client
     @client ||= Faraday.new(url) do |conn|
       conn.request :json
@@ -59,13 +59,12 @@ class Senzing
       }
     end
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
   # Constructs the host URL based on the configuration options.
   #
   # @return [String]
   def url
-    "http#{@config.senzing[:tls] ? 's' : ''}://#{@config.senzing[:host]}:#{@config.senzing[:port]}"
+    "http#{'s' if @config.senzing[:tls]}://#{@config.senzing[:host]}:#{@config.senzing[:port]}"
   end
 
   # Defines default configuration options.

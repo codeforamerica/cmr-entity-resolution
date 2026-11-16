@@ -11,13 +11,13 @@ describe Filter::ValueIs do
   describe '#filter' do
     context 'when the operator is not reversed' do
       context 'when the value matches' do
-        include_examples 'filter', true
+        it_behaves_like 'filter', true
       end
 
       context 'when the value does not match' do
         let(:filter_config) { super().merge(value: 'bad value') }
 
-        include_examples 'filter', false
+        it_behaves_like 'filter', false
       end
     end
 
@@ -25,13 +25,13 @@ describe Filter::ValueIs do
       let(:filter_config) { super().merge(inverse: true) }
 
       context 'when the value matches' do
-        include_examples 'filter', false
+        it_behaves_like 'filter', false
       end
 
       context 'when the value does not match' do
         let(:filter_config) { super().merge(value: 'bad value') }
 
-        include_examples 'filter', true
+        it_behaves_like 'filter', true
       end
     end
   end

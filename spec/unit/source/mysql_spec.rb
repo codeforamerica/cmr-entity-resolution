@@ -15,7 +15,7 @@ describe Source::MySQL do
       }
     end
 
-    include_examples 'source' do
+    it_behaves_like 'source' do
       before do
         allow(Sequel).to receive(:connect).and_return(Sequel.mock(fetch: rows))
       end
