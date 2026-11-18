@@ -11,7 +11,7 @@ describe Filter::NonHuman do
 
   describe '#filter' do
     context 'when the name does not match any terms' do
-      include_examples 'filter', true
+      it_behaves_like 'filter', true
     end
 
     context 'when the name matches an anywhere term' do
@@ -20,7 +20,7 @@ describe Filter::NonHuman do
         { PRIMARY_NAME_MIDDLE: 'SPORTS & ENT Shreddy' },
         { PRIMARY_NAME_LAST: 'Whiskers "EXPUNGED" Seal' }
       ].each do |updates|
-        include_examples 'filter', false do
+        it_behaves_like 'filter', false do
           let(:record) { super().merge(updates) }
         end
       end
@@ -29,13 +29,13 @@ describe Filter::NonHuman do
     context 'when the name matches a beginning term' do
       let(:record) { super().merge(PRIMARY_NAME_FIRST: 'REGISTER AGENT Shredward') }
 
-      include_examples 'filter', false
+      it_behaves_like 'filter', false
     end
 
     context 'when the name matches an ending term' do
       let(:record) { super().merge(PRIMARY_NAME_LAST: 'Whiskers AUTO DADDY') }
 
-      include_examples 'filter', false
+      it_behaves_like 'filter', false
     end
 
     context 'when the name matches an exact term' do
@@ -43,13 +43,13 @@ describe Filter::NonHuman do
         super().merge(PRIMARY_NAME_FIRST: 'EXPUNGED', PRIMARY_NAME_MIDDLE: 'DEFENDANT', PRIMARY_NAME_LAST: 'RECORD')
       end
 
-      include_examples 'filter', false
+      it_behaves_like 'filter', false
     end
 
     context 'when the name matches a middle term' do
       let(:record) { super().merge(PRIMARY_NAME_MIDDLE: 'Shreddy FOUNDATION') }
 
-      include_examples 'filter', false
+      it_behaves_like 'filter', false
     end
   end
 end

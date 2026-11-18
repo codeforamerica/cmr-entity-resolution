@@ -11,13 +11,13 @@ describe Transformation::StaticValue do
 
   describe '#transform' do
     context 'when the configured field does not exist' do
-      include_examples 'transform', unmodified: false
+      it_behaves_like 'transform', unmodified: false
     end
 
     context 'when the configured field exists' do
       let(:record) { super().merge(new_field: 'existing value') }
 
-      include_examples 'transform', unmodified: false
+      it_behaves_like 'transform', unmodified: false
     end
   end
 end

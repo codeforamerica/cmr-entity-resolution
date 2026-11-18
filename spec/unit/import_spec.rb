@@ -88,7 +88,7 @@ RSpec.describe Import do
   end
 
   describe '#senzing' do
-    include_examples 'proxy method', :senzing, Senzing do
+    it_behaves_like 'proxy method', :senzing, Senzing do
       let(:object) { senzing }
     end
   end

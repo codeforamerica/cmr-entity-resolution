@@ -5,7 +5,7 @@ require_relative '../../../lib/destination/file'
 describe Destination::File do
   # Since we're using an actual StringIO object we can't use message spies so
   # disable this cop.
-  # rubocop:disable RSpec/MessageSpies
+  # rubocop:disable-next RSpec/MessageSpies
   describe '#add_record' do
     subject(:destination) { described_class.new(destination_config) }
 
@@ -38,5 +38,4 @@ describe Destination::File do
       destination.add_record(records[2])
     end
   end
-  # rubocop:enable RSpec/MessageSpies
 end

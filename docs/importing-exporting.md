@@ -14,7 +14,7 @@ Before you can use the CLI[^1] you will need to install dependencies. If you're
 not used to working with Ruby, we recommend installing the Ruby Version Manager
 ([RVM][rvm]) to manage your rubies.
 
-Make sure you have a supported version of Ruby installed (3.2+) and run the
+Make sure you have a supported version of Ruby installed (4.0+) and run the
 following to install dependencies:
 
 ```bash
