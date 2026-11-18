@@ -6,7 +6,7 @@ PATH
       csv (~> 3.3)
       faraday (~> 2.7)
       faraday-retry (~> 2.3)
-      grape (~> 2.0)
+      grape (>= 2, < 5)
       ibm_db (~> 5.7)
       iteraptor (~> 0.10)
       mongo (~> 2.18)
@@ -112,6 +112,9 @@ GEM
       addressable (~> 2.8)
       base64 (~> 0.3)
     drb (2.2.3)
+    dry-configurable (1.4.0)
+      dry-core (~> 1.0)
+      zeitwerk (~> 2.6)
     dry-core (1.2.0)
       concurrent-ruby (~> 1.0)
       logger
@@ -143,12 +146,13 @@ GEM
       faraday (~> 2.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    grape (2.4.0)
-      activesupport (>= 6.1)
+    grape (4.1.0)
+      activesupport (>= 7.2)
+      dry-configurable (>= 1.0)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.1.0)
-      rack (>= 2)
-      zeitwerk
+      mustermann (>= 4.0)
+      rack (>= 2.2.4)
+      zeitwerk (>= 2.6)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     ibm_db (5.7.0)
@@ -178,6 +182,7 @@ GEM
       net-smtp
     marcel (1.2.1)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -185,8 +190,6 @@ GEM
       base64
       bson (>= 4.14.1, < 6.0.0)
     mustermann (4.0.1)
-    mustermann-grape (1.1.0)
-      mustermann (>= 1.0.0)
     mysql2 (0.5.7)
       bigdecimal
     net-http (0.10.0)
@@ -202,6 +205,9 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.7-x86_64-darwin)
@@ -215,6 +221,7 @@ GEM
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.1)
+    prism (2.1.0)
     prism (2.1.0-arm64-darwin)
     prism (2.1.0-x86_64-darwin)
     prism (2.1.0-x86_64-linux-gnu)
