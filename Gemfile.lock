@@ -178,6 +178,7 @@ GEM
       net-smtp
     marcel (1.2.1)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -202,6 +203,9 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.7-x86_64-darwin)
@@ -215,6 +219,7 @@ GEM
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.1)
+    prism (2.1.0)
     prism (2.1.0-arm64-darwin)
     prism (2.1.0-x86_64-darwin)
     prism (2.1.0-x86_64-linux-gnu)
@@ -281,7 +286,7 @@ GEM
     rspec-expectations (3.13.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-github (2.4.0)
+    rspec-github (3.0.0)
       rspec-core (~> 3.0)
     rspec-mocks (3.13.9)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -352,7 +357,7 @@ DEPENDENCIES
   rack-test (~> 2.1)
   rake (~> 13.0)
   rspec (~> 3.12)
-  rspec-github (~> 2.4)
+  rspec-github (~> 3.0)
   rubocop (~> 1.65)
   rubocop-factory_bot (~> 2.26)
   rubocop-rake (~> 0.6)
