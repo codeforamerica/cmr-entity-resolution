@@ -16,6 +16,6 @@ group :test do
   gem 'factory_bot', '~> 6.2'
   gem 'rack-test', '~> 2.1'
   gem 'rspec', '~> 3.12'
-  gem 'rspec-github', '~> 2.4'
+  gem 'rspec-github', '~> 3.0'
   gem 'simplecov', '~> 0.22'
 end
