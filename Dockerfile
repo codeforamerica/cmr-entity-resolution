@@ -31,7 +31,7 @@ RUN apt-get update && \
 RUN apt-get autoremove && apt-get clean
 
 
-FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-4.0}
+FROM --platform=linux/amd64 ruby:${RUBY_VERSION:-4.0.10}
 
 # Install runtime libraries required by Senzing
 RUN apt-get update && \
