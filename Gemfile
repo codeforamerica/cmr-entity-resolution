@@ -6,7 +6,7 @@ gemspec
 
 group :development do
   gem 'rake', '~> 13.0'
-  gem 'rubocop', '~> 1.65'
+  gem 'rubocop', '~> 1.92'
   gem 'rubocop-factory_bot', '~> 2.26'
   gem 'rubocop-rake', '~> 0.6'
   gem 'rubocop-rspec', '~> 3.0'
